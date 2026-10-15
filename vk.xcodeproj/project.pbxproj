@@ -139,188 +139,7 @@
 		C32306242080E57500CEC487 /* Functions.m in Sources */ = {isa = PBXBuildFile; fileRef = C32304D92080E57400CEC487 /* Functions.m */; };
 		C32306252080E57500CEC487 /* PythonBridgeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C32304DE2080E57400CEC487 /* PythonBridgeHandler.m */; };
 		C32306262080E57500CEC487 /* app_packages.zip in Resources */ = {isa = PBXBuildFile; fileRef = C32304DF2080E57400CEC487 /* app_packages.zip */; };
-		C32306272080E57500CEC487 /* subscriber.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304E22080E57400CEC487 /* subscriber.py */; };
-		C32306282080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304E32080E57400CEC487 /* __init__.py */; };
-		C32306292080E57500CEC487 /* parser.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304E42080E57400CEC487 /* parser.py */; };
-		C323062A2080E57500CEC487 /* enums.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304E62080E57400CEC487 /* enums.py */; };
-		C323062B2080E57500CEC487 /* langhungarianmodel.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304E72080E57400CEC487 /* langhungarianmodel.py */; };
-		C323062C2080E57500CEC487 /* mbcssm.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304E82080E57400CEC487 /* mbcssm.py */; };
-		C323062D2080E57500CEC487 /* langthaimodel.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304E92080E57400CEC487 /* langthaimodel.py */; };
-		C323062E2080E57500CEC487 /* version.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304EA2080E57400CEC487 /* version.py */; };
-		C323062F2080E57500CEC487 /* compat.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304EB2080E57400CEC487 /* compat.py */; };
-		C32306302080E57500CEC487 /* langbulgarianmodel.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304EC2080E57400CEC487 /* langbulgarianmodel.py */; };
-		C32306312080E57500CEC487 /* euckrprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304ED2080E57400CEC487 /* euckrprober.py */; };
-		C32306322080E57500CEC487 /* sjisprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304EE2080E57400CEC487 /* sjisprober.py */; };
-		C32306332080E57500CEC487 /* cp949prober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304EF2080E57400CEC487 /* cp949prober.py */; };
-		C32306342080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304F02080E57400CEC487 /* __init__.py */; };
-		C32306352080E57500CEC487 /* euctwfreq.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304F12080E57400CEC487 /* euctwfreq.py */; };
-		C32306362080E57500CEC487 /* langhebrewmodel.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304F22080E57400CEC487 /* langhebrewmodel.py */; };
-		C32306372080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304F42080E57400CEC487 /* __init__.py */; };
-		C32306382080E57500CEC487 /* chardetect.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304F52080E57400CEC487 /* chardetect.py */; };
-		C32306392080E57500CEC487 /* chardistribution.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304F62080E57400CEC487 /* chardistribution.py */; };
-		C323063A2080E57500CEC487 /* latin1prober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304F72080E57400CEC487 /* latin1prober.py */; };
-		C323063B2080E57500CEC487 /* charsetprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304F82080E57400CEC487 /* charsetprober.py */; };
-		C323063C2080E57500CEC487 /* gb2312prober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304F92080E57400CEC487 /* gb2312prober.py */; };
-		C323063D2080E57500CEC487 /* mbcharsetprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304FA2080E57400CEC487 /* mbcharsetprober.py */; };
-		C323063E2080E57500CEC487 /* euctwprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304FB2080E57400CEC487 /* euctwprober.py */; };
-		C323063F2080E57500CEC487 /* langrussianmodel.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304FC2080E57400CEC487 /* langrussianmodel.py */; };
-		C32306402080E57500CEC487 /* codingstatemachine.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304FD2080E57400CEC487 /* codingstatemachine.py */; };
-		C32306412080E57500CEC487 /* escprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304FE2080E57400CEC487 /* escprober.py */; };
-		C32306422080E57500CEC487 /* universaldetector.py in Resources */ = {isa = PBXBuildFile; fileRef = C32304FF2080E57400CEC487 /* universaldetector.py */; };
-		C32306432080E57500CEC487 /* utf8prober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305002080E57400CEC487 /* utf8prober.py */; };
-		C32306442080E57500CEC487 /* gb2312freq.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305012080E57400CEC487 /* gb2312freq.py */; };
-		C32306452080E57500CEC487 /* mbcsgroupprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305022080E57400CEC487 /* mbcsgroupprober.py */; };
-		C32306462080E57500CEC487 /* langgreekmodel.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305032080E57400CEC487 /* langgreekmodel.py */; };
-		C32306472080E57500CEC487 /* eucjpprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305042080E57400CEC487 /* eucjpprober.py */; };
-		C32306482080E57500CEC487 /* jisfreq.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305052080E57400CEC487 /* jisfreq.py */; };
-		C32306492080E57500CEC487 /* escsm.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305062080E57400CEC487 /* escsm.py */; };
-		C323064A2080E57500CEC487 /* langturkishmodel.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305072080E57400CEC487 /* langturkishmodel.py */; };
-		C323064B2080E57500CEC487 /* sbcharsetprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305082080E57400CEC487 /* sbcharsetprober.py */; };
-		C323064C2080E57500CEC487 /* big5freq.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305092080E57400CEC487 /* big5freq.py */; };
-		C323064D2080E57500CEC487 /* euckrfreq.py in Resources */ = {isa = PBXBuildFile; fileRef = C323050A2080E57400CEC487 /* euckrfreq.py */; };
-		C323064E2080E57500CEC487 /* big5prober.py in Resources */ = {isa = PBXBuildFile; fileRef = C323050B2080E57400CEC487 /* big5prober.py */; };
-		C323064F2080E57500CEC487 /* hebrewprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C323050C2080E57400CEC487 /* hebrewprober.py */; };
-		C32306502080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C323050E2080E57400CEC487 /* __init__.py */; };
-		C32306512080E57500CEC487 /* languages.py in Resources */ = {isa = PBXBuildFile; fileRef = C323050F2080E57400CEC487 /* languages.py */; };
-		C32306522080E57500CEC487 /* charsetgroupprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305102080E57400CEC487 /* charsetgroupprober.py */; };
-		C32306532080E57500CEC487 /* sbcsgroupprober.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305112080E57400CEC487 /* sbcsgroupprober.py */; };
-		C32306542080E57500CEC487 /* jpcntx.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305122080E57400CEC487 /* jpcntx.py */; };
-		C32306552080E57500CEC487 /* intranges.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305142080E57400CEC487 /* intranges.py */; };
-		C32306562080E57500CEC487 /* package_data.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305152080E57400CEC487 /* package_data.py */; };
-		C32306572080E57500CEC487 /* compat.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305162080E57400CEC487 /* compat.py */; };
-		C32306582080E57500CEC487 /* idnadata.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305172080E57400CEC487 /* idnadata.py */; };
-		C32306592080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305182080E57400CEC487 /* __init__.py */; };
-		C323065A2080E57500CEC487 /* core.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305192080E57400CEC487 /* core.py */; };
-		C323065B2080E57500CEC487 /* codec.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323051B2080E57500CEC487 /* codec.cpython-34.pyc */; };
-		C323065C2080E57500CEC487 /* compat.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323051C2080E57500CEC487 /* compat.cpython-34.pyc */; };
-		C323065D2080E57500CEC487 /* idnadata.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323051D2080E57500CEC487 /* idnadata.cpython-34.pyc */; };
-		C323065E2080E57500CEC487 /* core.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323051E2080E57500CEC487 /* core.cpython-34.pyc */; };
-		C323065F2080E57500CEC487 /* intranges.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323051F2080E57500CEC487 /* intranges.cpython-34.pyc */; };
-		C32306602080E57500CEC487 /* package_data.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305202080E57500CEC487 /* package_data.cpython-34.pyc */; };
-		C32306612080E57500CEC487 /* uts46data.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305212080E57500CEC487 /* uts46data.cpython-34.pyc */; };
-		C32306622080E57500CEC487 /* __init__.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305222080E57500CEC487 /* __init__.cpython-34.pyc */; };
-		C32306632080E57500CEC487 /* codec.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305232080E57500CEC487 /* codec.py */; };
-		C32306642080E57500CEC487 /* uts46data.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305242080E57500CEC487 /* uts46data.py */; };
-		C323066A2080E57500CEC487 /* cookies.py in Resources */ = {isa = PBXBuildFile; fileRef = C323052C2080E57500CEC487 /* cookies.py */; };
-		C323066B2080E57500CEC487 /* auth.py in Resources */ = {isa = PBXBuildFile; fileRef = C323052D2080E57500CEC487 /* auth.py */; };
-		C323066C2080E57500CEC487 /* sessions.py in Resources */ = {isa = PBXBuildFile; fileRef = C323052E2080E57500CEC487 /* sessions.py */; };
-		C323066D2080E57500CEC487 /* hooks.py in Resources */ = {isa = PBXBuildFile; fileRef = C323052F2080E57500CEC487 /* hooks.py */; };
-		C323066E2080E57500CEC487 /* compat.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305302080E57500CEC487 /* compat.py */; };
-		C323066F2080E57500CEC487 /* models.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305312080E57500CEC487 /* models.py */; };
-		C32306702080E57500CEC487 /* certs.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305322080E57500CEC487 /* certs.py */; };
-		C32306712080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305332080E57500CEC487 /* __init__.py */; };
-		C32306722080E57500CEC487 /* status_codes.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305342080E57500CEC487 /* status_codes.py */; };
-		C32306732080E57500CEC487 /* packages.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305352080E57500CEC487 /* packages.py */; };
-		C32306742080E57500CEC487 /* __version__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305362080E57500CEC487 /* __version__.py */; };
-		C32306752080E57500CEC487 /* api.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305372080E57500CEC487 /* api.py */; };
-		C32306762080E57500CEC487 /* _internal_utils.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305382080E57500CEC487 /* _internal_utils.py */; };
-		C32306772080E57500CEC487 /* utils.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305392080E57500CEC487 /* utils.py */; };
-		C32306782080E57500CEC487 /* exceptions.py in Resources */ = {isa = PBXBuildFile; fileRef = C323053A2080E57500CEC487 /* exceptions.py */; };
-		C32306792080E57500CEC487 /* structures.py in Resources */ = {isa = PBXBuildFile; fileRef = C323053B2080E57500CEC487 /* structures.py */; };
-		C323067A2080E57500CEC487 /* help.py in Resources */ = {isa = PBXBuildFile; fileRef = C323053C2080E57500CEC487 /* help.py */; };
-		C323067B2080E57500CEC487 /* adapters.py in Resources */ = {isa = PBXBuildFile; fileRef = C323053D2080E57500CEC487 /* adapters.py */; };
-		C323067C2080E57500CEC487 /* users.py in Resources */ = {isa = PBXBuildFile; fileRef = C323053F2080E57500CEC487 /* users.py */; };
-		C323067D2080E57500CEC487 /* session.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305402080E57500CEC487 /* session.py */; };
-		C323067E2080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305412080E57500CEC487 /* __init__.py */; };
-		C323067F2080E57500CEC487 /* exceptions.cpython-36.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305432080E57500CEC487 /* exceptions.cpython-36.pyc */; };
-		C32306802080E57500CEC487 /* utils.cpython-36.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305442080E57500CEC487 /* utils.cpython-36.pyc */; };
-		C32306812080E57500CEC487 /* session.cpython-36.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305452080E57500CEC487 /* session.cpython-36.pyc */; };
-		C32306822080E57500CEC487 /* __init__.cpython-36.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305462080E57500CEC487 /* __init__.cpython-36.pyc */; };
-		C32306832080E57500CEC487 /* api.cpython-36.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305472080E57500CEC487 /* api.cpython-36.pyc */; };
-		C32306842080E57500CEC487 /* api.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305482080E57500CEC487 /* api.py */; };
-		C32306852080E57500CEC487 /* utils.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305492080E57500CEC487 /* utils.py */; };
-		C32306862080E57500CEC487 /* exceptions.py in Resources */ = {isa = PBXBuildFile; fileRef = C323054A2080E57500CEC487 /* exceptions.py */; };
-		C32306872080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C323054C2080E57500CEC487 /* __init__.py */; };
-		C32306882080E57500CEC487 /* core.py in Resources */ = {isa = PBXBuildFile; fileRef = C323054D2080E57500CEC487 /* core.py */; };
-		C32306892080E57500CEC487 /* __main__.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323054F2080E57500CEC487 /* __main__.cpython-34.pyc */; };
-		C323068A2080E57500CEC487 /* core.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305502080E57500CEC487 /* core.cpython-34.pyc */; };
-		C323068B2080E57500CEC487 /* __init__.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305512080E57500CEC487 /* __init__.cpython-34.pyc */; };
 		C323068C2080E57500CEC487 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = C32305522080E57500CEC487 /* cacert.pem */; };
-		C323068D2080E57500CEC487 /* __main__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305532080E57500CEC487 /* __main__.py */; };
-		C323068E2080E57500CEC487 /* launcher.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305542080E57500CEC487 /* launcher.py */; };
-		C323068F2080E57500CEC487 /* filepost.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305562080E57500CEC487 /* filepost.py */; };
-		C32306902080E57500CEC487 /* fields.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305572080E57500CEC487 /* fields.py */; };
-		C32306912080E57500CEC487 /* wait.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305592080E57500CEC487 /* wait.py */; };
-		C32306922080E57500CEC487 /* request.py in Resources */ = {isa = PBXBuildFile; fileRef = C323055A2080E57500CEC487 /* request.py */; };
-		C32306932080E57500CEC487 /* timeout.py in Resources */ = {isa = PBXBuildFile; fileRef = C323055B2080E57500CEC487 /* timeout.py */; };
-		C32306942080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C323055C2080E57500CEC487 /* __init__.py */; };
-		C32306952080E57500CEC487 /* selectors.py in Resources */ = {isa = PBXBuildFile; fileRef = C323055D2080E57500CEC487 /* selectors.py */; };
-		C32306962080E57500CEC487 /* response.py in Resources */ = {isa = PBXBuildFile; fileRef = C323055E2080E57500CEC487 /* response.py */; };
-		C32306972080E57500CEC487 /* ssl_.py in Resources */ = {isa = PBXBuildFile; fileRef = C323055F2080E57500CEC487 /* ssl_.py */; };
-		C32306982080E57500CEC487 /* response.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305612080E57500CEC487 /* response.cpython-34.pyc */; };
-		C32306992080E57500CEC487 /* timeout.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305622080E57500CEC487 /* timeout.cpython-34.pyc */; };
-		C323069A2080E57500CEC487 /* request.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305632080E57500CEC487 /* request.cpython-34.pyc */; };
-		C323069B2080E57500CEC487 /* url.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305642080E57500CEC487 /* url.cpython-34.pyc */; };
-		C323069C2080E57500CEC487 /* connection.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305652080E57500CEC487 /* connection.cpython-34.pyc */; };
-		C323069D2080E57500CEC487 /* selectors.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305662080E57500CEC487 /* selectors.cpython-34.pyc */; };
-		C323069E2080E57500CEC487 /* wait.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305672080E57500CEC487 /* wait.cpython-34.pyc */; };
-		C323069F2080E57500CEC487 /* ssl_.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305682080E57500CEC487 /* ssl_.cpython-34.pyc */; };
-		C32306A02080E57500CEC487 /* retry.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305692080E57500CEC487 /* retry.cpython-34.pyc */; };
-		C32306A12080E57500CEC487 /* __init__.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323056A2080E57500CEC487 /* __init__.cpython-34.pyc */; };
-		C32306A22080E57500CEC487 /* retry.py in Resources */ = {isa = PBXBuildFile; fileRef = C323056B2080E57500CEC487 /* retry.py */; };
-		C32306A32080E57500CEC487 /* url.py in Resources */ = {isa = PBXBuildFile; fileRef = C323056C2080E57500CEC487 /* url.py */; };
-		C32306A42080E57500CEC487 /* connection.py in Resources */ = {isa = PBXBuildFile; fileRef = C323056D2080E57500CEC487 /* connection.py */; };
-		C32306A52080E57500CEC487 /* request.py in Resources */ = {isa = PBXBuildFile; fileRef = C323056E2080E57500CEC487 /* request.py */; };
-		C32306A62080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C323056F2080E57500CEC487 /* __init__.py */; };
-		C32306A72080E57500CEC487 /* poolmanager.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305702080E57500CEC487 /* poolmanager.py */; };
-		C32306A82080E57500CEC487 /* response.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305712080E57500CEC487 /* response.py */; };
-		C32306A92080E57500CEC487 /* response.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305732080E57500CEC487 /* response.cpython-34.pyc */; };
-		C32306AA2080E57500CEC487 /* poolmanager.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305742080E57500CEC487 /* poolmanager.cpython-34.pyc */; };
-		C32306AB2080E57500CEC487 /* exceptions.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305752080E57500CEC487 /* exceptions.cpython-34.pyc */; };
-		C32306AC2080E57500CEC487 /* request.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305762080E57500CEC487 /* request.cpython-34.pyc */; };
-		C32306AD2080E57500CEC487 /* filepost.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305772080E57500CEC487 /* filepost.cpython-34.pyc */; };
-		C32306AE2080E57500CEC487 /* connection.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305782080E57500CEC487 /* connection.cpython-34.pyc */; };
-		C32306AF2080E57500CEC487 /* connectionpool.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305792080E57500CEC487 /* connectionpool.cpython-34.pyc */; };
-		C32306B02080E57500CEC487 /* _collections.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323057A2080E57500CEC487 /* _collections.cpython-34.pyc */; };
-		C32306B12080E57500CEC487 /* fields.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323057B2080E57500CEC487 /* fields.cpython-34.pyc */; };
-		C32306B22080E57500CEC487 /* __init__.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323057C2080E57500CEC487 /* __init__.cpython-34.pyc */; };
-		C32306B32080E57500CEC487 /* securetransport.py in Resources */ = {isa = PBXBuildFile; fileRef = C323057E2080E57500CEC487 /* securetransport.py */; };
-		C32306B42080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C323057F2080E57500CEC487 /* __init__.py */; };
-		C32306B52080E57500CEC487 /* ntlmpool.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305812080E57500CEC487 /* ntlmpool.cpython-34.pyc */; };
-		C32306B62080E57500CEC487 /* securetransport.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305822080E57500CEC487 /* securetransport.cpython-34.pyc */; };
-		C32306B72080E57500CEC487 /* appengine.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305832080E57500CEC487 /* appengine.cpython-34.pyc */; };
-		C32306B82080E57500CEC487 /* socks.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305842080E57500CEC487 /* socks.cpython-34.pyc */; };
-		C32306B92080E57500CEC487 /* pyopenssl.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305852080E57500CEC487 /* pyopenssl.cpython-34.pyc */; };
-		C32306BA2080E57500CEC487 /* __init__.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305862080E57500CEC487 /* __init__.cpython-34.pyc */; };
-		C32306BB2080E57500CEC487 /* socks.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305872080E57500CEC487 /* socks.py */; };
-		C32306BC2080E57500CEC487 /* pyopenssl.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305882080E57500CEC487 /* pyopenssl.py */; };
-		C32306BD2080E57500CEC487 /* appengine.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305892080E57500CEC487 /* appengine.py */; };
-		C32306BE2080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C323058B2080E57500CEC487 /* __init__.py */; };
-		C32306BF2080E57500CEC487 /* low_level.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323058D2080E57500CEC487 /* low_level.cpython-34.pyc */; };
-		C32306C02080E57500CEC487 /* bindings.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323058E2080E57500CEC487 /* bindings.cpython-34.pyc */; };
-		C32306C12080E57500CEC487 /* __init__.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323058F2080E57500CEC487 /* __init__.cpython-34.pyc */; };
-		C32306C22080E57500CEC487 /* low_level.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305902080E57500CEC487 /* low_level.py */; };
-		C32306C32080E57500CEC487 /* bindings.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305912080E57500CEC487 /* bindings.py */; };
-		C32306C42080E57500CEC487 /* ntlmpool.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305922080E57500CEC487 /* ntlmpool.py */; };
-		C32306C52080E57500CEC487 /* connection.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305932080E57500CEC487 /* connection.py */; };
-		C32306C62080E57500CEC487 /* _collections.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305942080E57500CEC487 /* _collections.py */; };
-		C32306C72080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305962080E57500CEC487 /* __init__.py */; };
-		C32306C82080E57500CEC487 /* six.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305982080E57500CEC487 /* six.cpython-34.pyc */; };
-		C32306C92080E57500CEC487 /* ordered_dict.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305992080E57500CEC487 /* ordered_dict.cpython-34.pyc */; };
-		C32306CA2080E57500CEC487 /* __init__.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323059A2080E57500CEC487 /* __init__.cpython-34.pyc */; };
-		C32306CB2080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C323059C2080E57500CEC487 /* __init__.py */; };
-		C32306CC2080E57500CEC487 /* makefile.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323059E2080E57500CEC487 /* makefile.cpython-34.pyc */; };
-		C32306CD2080E57500CEC487 /* __init__.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C323059F2080E57500CEC487 /* __init__.cpython-34.pyc */; };
-		C32306CE2080E57500CEC487 /* makefile.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305A02080E57500CEC487 /* makefile.py */; };
-		C32306CF2080E57500CEC487 /* ordered_dict.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305A12080E57500CEC487 /* ordered_dict.py */; };
-		C32306D02080E57500CEC487 /* six.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305A22080E57500CEC487 /* six.py */; };
-		C32306D12080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305A42080E57500CEC487 /* __init__.py */; };
-		C32306D22080E57500CEC487 /* _implementation.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305A62080E57500CEC487 /* _implementation.cpython-34.pyc */; };
-		C32306D32080E57500CEC487 /* __init__.cpython-34.pyc in Resources */ = {isa = PBXBuildFile; fileRef = C32305A72080E57500CEC487 /* __init__.cpython-34.pyc */; };
-		C32306D42080E57500CEC487 /* _implementation.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305A82080E57500CEC487 /* _implementation.py */; };
-		C32306D52080E57500CEC487 /* exceptions.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305A92080E57500CEC487 /* exceptions.py */; };
-		C32306D62080E57500CEC487 /* connectionpool.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305AA2080E57500CEC487 /* connectionpool.py */; };
-		C32306D72080E57500CEC487 /* main.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305AB2080E57500CEC487 /* main.py */; };
-		C32306D82080E57500CEC487 /* screensmanager.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305AD2080E57500CEC487 /* screensmanager.py */; };
-		C32306D92080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305AE2080E57500CEC487 /* __init__.py */; };
-		C32306DA2080E57500CEC487 /* printpatch.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305AF2080E57500CEC487 /* printpatch.py */; };
-		C32306DB2080E57500CEC487 /* runloop.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305B02080E57500CEC487 /* runloop.py */; };
-		C32306DC2080E57500CEC487 /* managers.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305B12080E57500CEC487 /* managers.py */; };
-		C32306DD2080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305B32080E57500CEC487 /* __init__.py */; };
-		C32306DE2080E57500CEC487 /* wallservice.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305B42080E57500CEC487 /* wallservice.py */; };
-		C32306DF2080E57500CEC487 /* chatlistservice.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305B52080E57500CEC487 /* chatlistservice.py */; };
-		C32306E02080E57500CEC487 /* usersdatabase.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305B72080E57500CEC487 /* usersdatabase.py */; };
-		C32306E12080E57500CEC487 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305B82080E57500CEC487 /* __init__.py */; };
 		C32306E32080E63D00CEC487 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C32306E22080E63C00CEC487 /* libsqlite3.tbd */; };
 		C32306E52080E64400CEC487 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C32306E42080E64400CEC487 /* libz.tbd */; };
 		C32306E72080E64B00CEC487 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C32306E62080E64B00CEC487 /* MobileCoreServices.framework */; };
@@ -542,14 +361,12 @@
 		C398BA66209369130071FA04 /* RowsDialogImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C398BA65209369130071FA04 /* RowsDialogImpl.m */; };
 		C398BA6F2094597A0071FA04 /* PostBaseNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C398BA6E2094597A0071FA04 /* PostBaseNode.m */; };
 		C398BA742094743A0071FA04 /* WallUserMessageNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C398BA732094743A0071FA04 /* WallUserMessageNode.swift */; };
-		C39C8B8D209C862300CC23C3 /* calcrect.py in Resources */ = {isa = PBXBuildFile; fileRef = C39C8B8C209C862200CC23C3 /* calcrect.py */; };
 		C39C8B93209D788300CC23C3 /* Tags.m in Sources */ = {isa = PBXBuildFile; fileRef = C39C8B92209D788300CC23C3 /* Tags.m */; };
 		C39C8B9B209D924000CC23C3 /* VideoPlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39C8B9A209D924000CC23C3 /* VideoPlayerNode.swift */; };
 		C39C8B9D209D92A400CC23C3 /* ExtendedVideoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39C8B9C209D92A400CC23C3 /* ExtendedVideoNode.swift */; };
 		C39C8BA3209DBDEF00CC23C3 /* PostTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C39C8BA2209DBDEF00CC23C3 /* PostTextNode.m */; };
 		C39C8BAD209DFCA000CC23C3 /* PythonBridgeExtensionImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C39C8BAC209DFCA000CC23C3 /* PythonBridgeExtensionImpl.m */; };
 		C39C8BB0209EE62300CC23C3 /* AuthorizationNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39C8BAF209EE62300CC23C3 /* AuthorizationNode.swift */; };
-		C39C8BB3209F076600CC23C3 /* settings.py in Resources */ = {isa = PBXBuildFile; fileRef = C39C8BB2209F02FE00CC23C3 /* settings.py */; };
 		C39C8BB6209F109500CC23C3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C39C8BB5209F109500CC23C3 /* LaunchScreen.storyboard */; };
 		C39C8BE1209F304800CC23C3 /* VKSdkFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C39C8BDE209F303E00CC23C3 /* VKSdkFramework.framework */; };
 		C39C8BE2209F304800CC23C3 /* VKSdkFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C39C8BDE209F303E00CC23C3 /* VKSdkFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -5945,337 +5762,154 @@
 			files = (
 				C36CD87320B52722002703D1 /* EulaAlertView.xib in Resources */,
 				C3B0EF04208B14E8008802BB /* loadBubble_0013_Layer-26@1x.png in Resources */,
-				C32306A22080E57500CEC487 /* retry.py in Resources */,
 				C3B0EEF6208B14E8008802BB /* loadBubble_0032_Layer-7@1x.png in Resources */,
-				C323062B2080E57500CEC487 /* langhungarianmodel.py in Resources */,
 				C3B0EEE4208B14E8008802BB /* loadBubble_0024_Layer-15@2x.png in Resources */,
-				C323063B2080E57500CEC487 /* charsetprober.py in Resources */,
 				C3B0EEF8208B14E8008802BB /* loadBubble_0034_Layer-5@1x.png in Resources */,
-				C32306712080E57500CEC487 /* __init__.py in Resources */,
 				C3B0EEE3208B14E8008802BB /* loadBubble_0029_Layer-10@2x.png in Resources */,
-				C323064A2080E57500CEC487 /* langturkishmodel.py in Resources */,
 				C3B0EEED208B14E8008802BB /* loadBubble_0036_Layer-3@2x.png in Resources */,
-				C323064D2080E57500CEC487 /* euckrfreq.py in Resources */,
-				C323062C2080E57500CEC487 /* mbcssm.py in Resources */,
-				C32306AC2080E57500CEC487 /* request.cpython-34.pyc in Resources */,
-				C32306282080E57500CEC487 /* __init__.py in Resources */,
 				C3B0EF1F208B14E8008802BB /* loadBubble@1x.gif in Resources */,
-				C32306AD2080E57500CEC487 /* filepost.cpython-34.pyc in Resources */,
-				C32306A12080E57500CEC487 /* __init__.cpython-34.pyc in Resources */,
 				C3B0EEE1208B14E8008802BB /* loadBubble_0009_Layer-30@2x.png in Resources */,
 				C3B0EF12208B14E8008802BB /* loadBubble_0011_Layer-28@1x.png in Resources */,
-				C32306792080E57500CEC487 /* structures.py in Resources */,
-				C32306372080E57500CEC487 /* __init__.py in Resources */,
-				C39C8B8D209C862300CC23C3 /* calcrect.py in Resources */,
-				C323062D2080E57500CEC487 /* langthaimodel.py in Resources */,
 				C3B0EEE8208B14E8008802BB /* loadBubble_0016_Layer-23@2x.png in Resources */,
-				C39C8BB3209F076600CC23C3 /* settings.py in Resources */,
 				C3B0EF10208B14E8008802BB /* loadBubble_0017_Layer-22@1x.png in Resources */,
 				C3B0EF07208B14E8008802BB /* loadBubble_0005_Layer-34@1x.png in Resources */,
-				C323068D2080E57500CEC487 /* __main__.py in Resources */,
-				C323062A2080E57500CEC487 /* enums.py in Resources */,
-				C32306472080E57500CEC487 /* eucjpprober.py in Resources */,
-				C32306422080E57500CEC487 /* universaldetector.py in Resources */,
-				C32306492080E57500CEC487 /* escsm.py in Resources */,
 				C32306062080E57500CEC487 /* Main.storyboard in Resources */,
 				C3B0EF3E208B14E8008802BB /* loadBubble_0038_Layer-1@3x.png in Resources */,
-				C32306482080E57500CEC487 /* jisfreq.py in Resources */,
 				C39D470720A2CD7600C6CC99 /* Info.plist in Resources */,
-				C32306302080E57500CEC487 /* langbulgarianmodel.py in Resources */,
-				C32306B02080E57500CEC487 /* _collections.cpython-34.pyc in Resources */,
 				C3B0EEEC208B14E8008802BB /* loadBubble_0021_Layer-18@2x.png in Resources */,
-				C323063C2080E57500CEC487 /* gb2312prober.py in Resources */,
-				C32306352080E57500CEC487 /* euctwfreq.py in Resources */,
 				C3B0EF2E208B14E8008802BB /* loadBubble_0033_Layer-6@3x.png in Resources */,
-				C32306312080E57500CEC487 /* euckrprober.py in Resources */,
 				C3B0EF03208B14E8008802BB /* loadBubble_0010_Layer-29@1x.png in Resources */,
 				C32306262080E57500CEC487 /* app_packages.zip in Resources */,
 				C3B0EECF208B14E8008802BB /* loadBubble_0019_Layer-20@2x.png in Resources */,
 				C3B0EF3A208B14E8008802BB /* loadBubble_0008_Layer-31@3x.png in Resources */,
 				C3B0EF0A208B14E8008802BB /* loadBubble_0028_Layer-11@1x.png in Resources */,
-				C323065E2080E57500CEC487 /* core.cpython-34.pyc in Resources */,
 				C323060F2080E57500CEC487 /* Common.xcassets in Resources */,
 				C338CA4F20A1BF6600F30B77 /* FacebookSDKStrings.bundle in Resources */,
-				C323062F2080E57500CEC487 /* compat.py in Resources */,
 				C3B0EF3B208B14E8008802BB /* loadBubble_0018_Layer-21@3x.png in Resources */,
-				C32306342080E57500CEC487 /* __init__.py in Resources */,
 				C3B0EF01208B14E8008802BB /* loadBubble_0022_Layer-17@1x.png in Resources */,
-				C32306922080E57500CEC487 /* request.py in Resources */,
-				C32306572080E57500CEC487 /* compat.py in Resources */,
 				C3B0EF09208B14E8008802BB /* loadBubble_0029_Layer-10@1x.png in Resources */,
-				C32306512080E57500CEC487 /* languages.py in Resources */,
-				C32306582080E57500CEC487 /* idnadata.py in Resources */,
 				C3B0EEDC208B14E8008802BB /* loadBubble_0033_Layer-6@2x.png in Resources */,
 				C32306102080E57500CEC487 /* Default-568h@2x.png in Resources */,
 				C3B0EF1E208B14E8008802BB /* loadBubble@2x.gif in Resources */,
 				C3B0EF2F208B14E8008802BB /* loadBubble_0035_Layer-4@3x.png in Resources */,
-				C32306942080E57500CEC487 /* __init__.py in Resources */,
-				C32306562080E57500CEC487 /* package_data.py in Resources */,
-				C32306C92080E57500CEC487 /* ordered_dict.cpython-34.pyc in Resources */,
-				C32306702080E57500CEC487 /* certs.py in Resources */,
 				C39D46B420A2CD6900C6CC99 /* CircleProgressIndicator.xcassets in Resources */,
 				C3B0EEE9208B14E8008802BB /* loadBubble_0013_Layer-26@2x.png in Resources */,
 				C32305FF2080E57500CEC487 /* Default-736h@3x.png in Resources */,
-				C323067E2080E57500CEC487 /* __init__.py in Resources */,
-				C323064B2080E57500CEC487 /* sbcharsetprober.py in Resources */,
-				C32306D62080E57500CEC487 /* connectionpool.py in Resources */,
-				C323069A2080E57500CEC487 /* request.cpython-34.pyc in Resources */,
-				C32306382080E57500CEC487 /* chardetect.py in Resources */,
-				C32306C02080E57500CEC487 /* bindings.cpython-34.pyc in Resources */,
 				C323092E2081AEB100CEC487 /* LICENSE in Resources */,
 				C3B0EF27208B14E8008802BB /* loadBubble_0031_Layer-8@3x.png in Resources */,
-				C32306642080E57500CEC487 /* uts46data.py in Resources */,
 				C3B0EF19208B14E8008802BB /* loadBubble_0002_Layer-37@1x.png in Resources */,
-				C32306402080E57500CEC487 /* codingstatemachine.py in Resources */,
 				C3B0EF18208B14E8008802BB /* loadBubble_0007_Layer-32@1x.png in Resources */,
-				C32306C42080E57500CEC487 /* ntlmpool.py in Resources */,
-				C323067C2080E57500CEC487 /* users.py in Resources */,
 				C3B0EEE6208B14E8008802BB /* loadBubble_0030_Layer-9@2x.png in Resources */,
 				C3B0EF00208B14E8008802BB /* loadBubble_0027_Layer-12@1x.png in Resources */,
 				C3B0EF1C208B14E8008802BB /* loadBubble_0019_Layer-20@1x.png in Resources */,
 				C3B0EED4208B14E8008802BB /* loadBubble_0001_Layer-38@2x.png in Resources */,
 				C3B0EED1208B14E8008802BB /* loadBubble_0014_Layer-25@2x.png in Resources */,
 				C3B0EED2208B14E8008802BB /* loadBubble_0026_Layer-13@2x.png in Resources */,
-				C32306D92080E57500CEC487 /* __init__.py in Resources */,
-				C32306A82080E57500CEC487 /* response.py in Resources */,
 				C3B0EF32208B14E8008802BB /* loadBubble_0017_Layer-22@3x.png in Resources */,
 				C3B0EF0E208B14E8008802BB /* loadBubble_0004_Layer-35@1x.png in Resources */,
-				C32306CE2080E57500CEC487 /* makefile.py in Resources */,
-				C323069E2080E57500CEC487 /* wait.cpython-34.pyc in Resources */,
-				C323068B2080E57500CEC487 /* __init__.cpython-34.pyc in Resources */,
-				C32306BE2080E57500CEC487 /* __init__.py in Resources */,
 				C3B0EEEB208B14E8008802BB /* loadBubble_0003_Layer-36@2x.png in Resources */,
 				C3B0EF2D208B14E8008802BB /* loadBubble_0004_Layer-35@3x.png in Resources */,
 				C3B0EF20208B14E8008802BB /* loadBubble_0002_Layer-37@3x.png in Resources */,
 				C3B0EF3F208B14E9008802BB /* loadBubble_0015_Layer-24@3x.png in Resources */,
-				C32306BB2080E57500CEC487 /* socks.py in Resources */,
-				C32306292080E57500CEC487 /* parser.py in Resources */,
 				C32305EE2080E57500CEC487 /* Assets.xcassets in Resources */,
-				C32306D12080E57500CEC487 /* __init__.py in Resources */,
-				C32306AE2080E57500CEC487 /* connection.cpython-34.pyc in Resources */,
 				C32309362081AEB100CEC487 /* README.md in Resources */,
-				C323066D2080E57500CEC487 /* hooks.py in Resources */,
-				C32306332080E57500CEC487 /* cp949prober.py in Resources */,
-				C323067B2080E57500CEC487 /* adapters.py in Resources */,
-				C32306AA2080E57500CEC487 /* poolmanager.cpython-34.pyc in Resources */,
-				C32306952080E57500CEC487 /* selectors.py in Resources */,
-				C32306882080E57500CEC487 /* core.py in Resources */,
-				C323066C2080E57500CEC487 /* sessions.py in Resources */,
 				C39D46D720A2CD6900C6CC99 /* Photos.xcassets in Resources */,
-				C32306BA2080E57500CEC487 /* __init__.cpython-34.pyc in Resources */,
-				C32306DA2080E57500CEC487 /* printpatch.py in Resources */,
-				C323066E2080E57500CEC487 /* compat.py in Resources */,
 				C3B0EF2C208B14E8008802BB /* loadBubble_0025_Layer-14@3x.png in Resources */,
-				C32306D22080E57500CEC487 /* _implementation.cpython-34.pyc in Resources */,
 				C3B0EEE0208B14E8008802BB /* loadBubble_0028_Layer-11@2x.png in Resources */,
 				C3B0EEFB208B14E8008802BB /* loadBubble_0003_Layer-36@1x.png in Resources */,
 				C3B0EF3D208B14E8008802BB /* loadBubble_0034_Layer-5@3x.png in Resources */,
 				C3B0EEFE208B14E8008802BB /* loadBubble_0036_Layer-3@1x.png in Resources */,
-				C32306AF2080E57500CEC487 /* connectionpool.cpython-34.pyc in Resources */,
-				C32306CD2080E57500CEC487 /* __init__.cpython-34.pyc in Resources */,
-				C32306552080E57500CEC487 /* intranges.py in Resources */,
 				C3B0EF31208B14E8008802BB /* loadBubble_0012_Layer-27@3x.png in Resources */,
-				C32306592080E57500CEC487 /* __init__.py in Resources */,
-				C32306BF2080E57500CEC487 /* low_level.cpython-34.pyc in Resources */,
 				C3B0EF1B208B14E8008802BB /* loadBubble_0031_Layer-8@1x.png in Resources */,
 				C395126B20B68F7F00EE5DFB /* EulaViewController.storyboard in Resources */,
-				C32306972080E57500CEC487 /* ssl_.py in Resources */,
 				C3B0EF21208B14E8008802BB /* loadBubble_0007_Layer-32@3x.png in Resources */,
-				C32306732080E57500CEC487 /* packages.py in Resources */,
-				C32306B72080E57500CEC487 /* appengine.cpython-34.pyc in Resources */,
 				C3B0EF43208B14E9008802BB /* loadBubble_0036_Layer-3@3x.png in Resources */,
 				C3B0EEDD208B14E8008802BB /* loadBubble_0004_Layer-35@2x.png in Resources */,
 				C3B0EF05208B14E8008802BB /* loadBubble_0016_Layer-23@1x.png in Resources */,
-				C32306DE2080E57500CEC487 /* wallservice.py in Resources */,
 				C3B0EEF5208B14E8008802BB /* loadBubble_0018_Layer-21@2x.png in Resources */,
 				C3B0EF1A208B14E8008802BB /* loadBubble_0014_Layer-25@1x.png in Resources */,
-				C32306D32080E57500CEC487 /* __init__.cpython-34.pyc in Resources */,
-				C32306532080E57500CEC487 /* sbcsgroupprober.py in Resources */,
-				C32306272080E57500CEC487 /* subscriber.py in Resources */,
-				C323065D2080E57500CEC487 /* idnadata.cpython-34.pyc in Resources */,
 				C3B0EED0208B14E8008802BB /* loadBubble_0031_Layer-8@2x.png in Resources */,
-				C32306982080E57500CEC487 /* response.cpython-34.pyc in Resources */,
-				C32306CF2080E57500CEC487 /* ordered_dict.py in Resources */,
-				C323069B2080E57500CEC487 /* url.cpython-34.pyc in Resources */,
 				C32306222080E57500CEC487 /* SimpleCell.xib in Resources */,
-				C32306992080E57500CEC487 /* timeout.cpython-34.pyc in Resources */,
-				C32306762080E57500CEC487 /* _internal_utils.py in Resources */,
-				C32306B32080E57500CEC487 /* securetransport.py in Resources */,
-				C32306892080E57500CEC487 /* __main__.cpython-34.pyc in Resources */,
-				C323067F2080E57500CEC487 /* exceptions.cpython-36.pyc in Resources */,
-				C32306632080E57500CEC487 /* codec.py in Resources */,
 				C3B0EF45208B14E9008802BB /* loadBubble_0006_Layer-33@3x.png in Resources */,
-				C32306722080E57500CEC487 /* status_codes.py in Resources */,
 				C3B0EEF1208B14E8008802BB /* loadBubble_0015_Layer-24@2x.png in Resources */,
 				C39D46A220A2CD6900C6CC99 /* BaseMessageAssets.xcassets in Resources */,
-				C32306962080E57500CEC487 /* response.py in Resources */,
-				C32306832080E57500CEC487 /* api.cpython-36.pyc in Resources */,
-				C323066A2080E57500CEC487 /* cookies.py in Resources */,
 				C3B0EEF9208B14E8008802BB /* loadBubble_0015_Layer-24@1x.png in Resources */,
 				C3B0EF40208B14E9008802BB /* loadBubble_0022_Layer-17@3x.png in Resources */,
-				C32306CB2080E57500CEC487 /* __init__.py in Resources */,
 				C3B0EF23208B14E8008802BB /* loadBubble_0001_Layer-38@3x.png in Resources */,
 				C323060D2080E57500CEC487 /* MenuViewController.storyboard in Resources */,
-				C323069F2080E57500CEC487 /* ssl_.cpython-34.pyc in Resources */,
 				C323068C2080E57500CEC487 /* cacert.pem in Resources */,
-				C323066F2080E57500CEC487 /* models.py in Resources */,
 				C3B0EF3C208B14E8008802BB /* loadBubble_0032_Layer-7@3x.png in Resources */,
 				C3B0EF34208B14E8008802BB /* loadBubble_0013_Layer-26@3x.png in Resources */,
 				C3B0EED6208B14E8008802BB /* loadBubble_0002_Layer-37@2x.png in Resources */,
 				C3B0EEF0208B14E8008802BB /* loadBubble_0027_Layer-12@2x.png in Resources */,
 				C3B0EF0C208B14E8008802BB /* loadBubble_0037_Layer-2@1x.png in Resources */,
-				C32306A32080E57500CEC487 /* url.py in Resources */,
-				C323068E2080E57500CEC487 /* launcher.py in Resources */,
 				C39C8BB6209F109500CC23C3 /* LaunchScreen.storyboard in Resources */,
-				C32306A92080E57500CEC487 /* response.cpython-34.pyc in Resources */,
 				C3B0EF08208B14E8008802BB /* loadBubble_0008_Layer-31@1x.png in Resources */,
-				C32306D52080E57500CEC487 /* exceptions.py in Resources */,
 				C34A577120A48E4600DBAF4A /* send-adhoc-to-hockeyapp.sh in Resources */,
 				C3B0EEDA208B14E8008802BB /* loadBubble_0011_Layer-28@2x.png in Resources */,
 				C3B0EF14208B14E8008802BB /* loadBubble_0023_Layer-16@1x.png in Resources */,
-				C32306C82080E57500CEC487 /* six.cpython-34.pyc in Resources */,
 				C3B0EF2A208B14E8008802BB /* loadBubble_0028_Layer-11@3x.png in Resources */,
-				C323066B2080E57500CEC487 /* auth.py in Resources */,
 				C3B0EEFC208B14E8008802BB /* loadBubble_0006_Layer-33@1x.png in Resources */,
-				C323068F2080E57500CEC487 /* filepost.py in Resources */,
 				C3B0EF24208B14E8008802BB /* loadBubble_0026_Layer-13@3x.png in Resources */,
-				C32306D82080E57500CEC487 /* screensmanager.py in Resources */,
-				C32306C32080E57500CEC487 /* bindings.py in Resources */,
-				C323065A2080E57500CEC487 /* core.py in Resources */,
 				C3B0EEDB208B14E8008802BB /* loadBubble_0035_Layer-4@2x.png in Resources */,
 				C3B0EEEE208B14E8008802BB /* loadBubble_0000_Layer-39@2x.png in Resources */,
 				C39D46CC20A2CD6900C6CC99 /* ChatInputBar.xib in Resources */,
 				C3987E492099CB480047A30F /* SendingStatusCollectionViewCell.xib in Resources */,
-				C32306A52080E57500CEC487 /* request.py in Resources */,
-				C32306B52080E57500CEC487 /* ntlmpool.cpython-34.pyc in Resources */,
-				C32306C22080E57500CEC487 /* low_level.py in Resources */,
 				C3B0EEFA208B14E8008802BB /* loadBubble_0038_Layer-1@1x.png in Resources */,
-				C32306442080E57500CEC487 /* gb2312freq.py in Resources */,
 				C3B0EED7208B14E8008802BB /* loadBubble_0007_Layer-32@2x.png in Resources */,
-				C32306B12080E57500CEC487 /* fields.cpython-34.pyc in Resources */,
-				C32306C62080E57500CEC487 /* _collections.py in Resources */,
-				C323063A2080E57500CEC487 /* latin1prober.py in Resources */,
-				C32306462080E57500CEC487 /* langgreekmodel.py in Resources */,
 				C3B0EEFD208B14E8008802BB /* loadBubble_0021_Layer-18@1x.png in Resources */,
-				C32306452080E57500CEC487 /* mbcsgroupprober.py in Resources */,
-				C32306B92080E57500CEC487 /* pyopenssl.cpython-34.pyc in Resources */,
-				C32306412080E57500CEC487 /* escprober.py in Resources */,
-				C32306BD2080E57500CEC487 /* appengine.py in Resources */,
-				C32306C72080E57500CEC487 /* __init__.py in Resources */,
 				C3B0EF1D208B14E8008802BB /* loadBubble@3x.gif in Resources */,
-				C32306A72080E57500CEC487 /* poolmanager.py in Resources */,
 				C32306182080E57500CEC487 /* Default-667h@2x.png in Resources */,
 				C3B0EF0D208B14E8008802BB /* loadBubble_0033_Layer-6@1x.png in Resources */,
 				C39D46AA20A2CD6900C6CC99 /* PhotoMessageAssets.xcassets in Resources */,
-				C323065F2080E57500CEC487 /* intranges.cpython-34.pyc in Resources */,
 				C3B0EEF4208B14E8008802BB /* loadBubble_0032_Layer-7@2x.png in Resources */,
 				C323092F2081AEB100CEC487 /* README.md in Resources */,
-				C32306392080E57500CEC487 /* chardistribution.py in Resources */,
-				C32306A42080E57500CEC487 /* connection.py in Resources */,
 				197D8B141D64BA50004630AE /* Main.storyboard in Resources */,
 				C3B0EF25208B14E8008802BB /* loadBubble_0023_Layer-16@3x.png in Resources */,
 				C3B0EF44208B14E9008802BB /* loadBubble_0021_Layer-18@3x.png in Resources */,
-				C32306932080E57500CEC487 /* timeout.py in Resources */,
-				C32306C12080E57500CEC487 /* __init__.cpython-34.pyc in Resources */,
-				C32306AB2080E57500CEC487 /* exceptions.cpython-34.pyc in Resources */,
-				C32306B82080E57500CEC487 /* socks.cpython-34.pyc in Resources */,
 				C3B0EEE7208B14E8008802BB /* loadBubble_0010_Layer-29@2x.png in Resources */,
 				C3B0EEFF208B14E8008802BB /* loadBubble_0000_Layer-39@1x.png in Resources */,
 				C3B0EF39208B14E8008802BB /* loadBubble_0029_Layer-10@3x.png in Resources */,
 				C32309302081AEB100CEC487 /* LICENSE in Resources */,
 				C3B0EEE5208B14E8008802BB /* loadBubble_0005_Layer-34@2x.png in Resources */,
-				C32306912080E57500CEC487 /* wait.py in Resources */,
-				C32306B62080E57500CEC487 /* securetransport.cpython-34.pyc in Resources */,
 				C32305D82080E57500CEC487 /* Localizable.strings in Resources */,
-				C323067A2080E57500CEC487 /* help.py in Resources */,
-				C323069C2080E57500CEC487 /* connection.cpython-34.pyc in Resources */,
 				C3B0EF33208B14E8008802BB /* loadBubble_0016_Layer-23@3x.png in Resources */,
 				C3B0EF37208B14E8008802BB /* loadBubble_0005_Layer-34@3x.png in Resources */,
 				C3B0EEDE208B14E8008802BB /* loadBubble_0025_Layer-14@2x.png in Resources */,
-				C32306812080E57500CEC487 /* session.cpython-36.pyc in Resources */,
 				C3B0EF0F208B14E8008802BB /* loadBubble_0025_Layer-14@1x.png in Resources */,
-				C32306542080E57500CEC487 /* jpcntx.py in Resources */,
-				C32306502080E57500CEC487 /* __init__.py in Resources */,
-				C32306902080E57500CEC487 /* fields.py in Resources */,
-				C32306742080E57500CEC487 /* __version__.py in Resources */,
 				C3B0EF41208B14E9008802BB /* loadBubble_0027_Layer-12@3x.png in Resources */,
-				C32306C52080E57500CEC487 /* connection.py in Resources */,
-				C32306DB2080E57500CEC487 /* runloop.py in Resources */,
-				C32306DF2080E57500CEC487 /* chatlistservice.py in Resources */,
-				C32306602080E57500CEC487 /* package_data.cpython-34.pyc in Resources */,
-				C32306852080E57500CEC487 /* utils.py in Resources */,
-				C32306772080E57500CEC487 /* utils.py in Resources */,
-				C32306822080E57500CEC487 /* __init__.cpython-36.pyc in Resources */,
 				C3B0EEF2208B14E8008802BB /* loadBubble_0038_Layer-1@2x.png in Resources */,
 				C3B0EF30208B14E8008802BB /* loadBubble_0011_Layer-28@3x.png in Resources */,
 				C3B0EF2B208B14E8008802BB /* loadBubble_0037_Layer-2@3x.png in Resources */,
-				C32306752080E57500CEC487 /* api.py in Resources */,
-				C32306322080E57500CEC487 /* sjisprober.py in Resources */,
-				C323069D2080E57500CEC487 /* selectors.cpython-34.pyc in Resources */,
-				C32306CC2080E57500CEC487 /* makefile.cpython-34.pyc in Resources */,
-				C32306622080E57500CEC487 /* __init__.cpython-34.pyc in Resources */,
 				C3B0EEEF208B14E8008802BB /* loadBubble_0022_Layer-17@2x.png in Resources */,
 				C3B0EF42208B14E9008802BB /* loadBubble_0000_Layer-39@3x.png in Resources */,
 				C3B0EF28208B14E8008802BB /* loadBubble_0019_Layer-20@3x.png in Resources */,
 				C3B0EF0B208B14E8008802BB /* loadBubble_0009_Layer-30@1x.png in Resources */,
 				C3B0EED9208B14E8008802BB /* loadBubble_0017_Layer-22@2x.png in Resources */,
-				C323063F2080E57500CEC487 /* langrussianmodel.py in Resources */,
-				C32306D72080E57500CEC487 /* main.py in Resources */,
-				C32306522080E57500CEC487 /* charsetgroupprober.py in Resources */,
 				C3B0EEEA208B14E8008802BB /* loadBubble_0006_Layer-33@2x.png in Resources */,
-				C32306B42080E57500CEC487 /* __init__.py in Resources */,
-				C32306842080E57500CEC487 /* api.py in Resources */,
-				C32306BC2080E57500CEC487 /* pyopenssl.py in Resources */,
-				C32306362080E57500CEC487 /* langhebrewmodel.py in Resources */,
-				C323063D2080E57500CEC487 /* mbcharsetprober.py in Resources */,
-				C32306872080E57500CEC487 /* __init__.py in Resources */,
-				C323064C2080E57500CEC487 /* big5freq.py in Resources */,
 				C3B0EF15208B14E8008802BB /* loadBubble_0026_Layer-13@1x.png in Resources */,
-				C32306CA2080E57500CEC487 /* __init__.cpython-34.pyc in Resources */,
 				C3B0EF38208B14E8008802BB /* loadBubble_0024_Layer-15@3x.png in Resources */,
 				C3B0EF02208B14E8008802BB /* loadBubble_0030_Layer-9@1x.png in Resources */,
 				C3B0EF26208B14E8008802BB /* loadBubble_0014_Layer-25@3x.png in Resources */,
-				C323064F2080E57500CEC487 /* hebrewprober.py in Resources */,
 				C3B0EED8208B14E8008802BB /* loadBubble_0012_Layer-27@2x.png in Resources */,
-				C323067D2080E57500CEC487 /* session.py in Resources */,
-				C32306A02080E57500CEC487 /* retry.cpython-34.pyc in Resources */,
 				C3B0EF06208B14E8008802BB /* loadBubble_0024_Layer-15@1x.png in Resources */,
 				C3B0EEF7208B14E8008802BB /* loadBubble_0018_Layer-21@1x.png in Resources */,
 				C3B0EF29208B14E8008802BB /* loadBubble_0009_Layer-30@3x.png in Resources */,
 				C3B0EF36208B14E8008802BB /* loadBubble_0030_Layer-9@3x.png in Resources */,
-				C32306B22080E57500CEC487 /* __init__.cpython-34.pyc in Resources */,
 				C3B0EEF3208B14E8008802BB /* loadBubble_0034_Layer-5@2x.png in Resources */,
-				C323065B2080E57500CEC487 /* codec.cpython-34.pyc in Resources */,
 				C3B0EF17208B14E8008802BB /* loadBubble_0020_Layer-19@1x.png in Resources */,
 				C3B0EEE2208B14E8008802BB /* loadBubble_0008_Layer-31@2x.png in Resources */,
-				C32306802080E57500CEC487 /* utils.cpython-36.pyc in Resources */,
 				C3B0EF22208B14E8008802BB /* loadBubble_0020_Layer-19@3x.png in Resources */,
 				C3B0EF35208B14E8008802BB /* loadBubble_0010_Layer-29@3x.png in Resources */,
-				C32306DC2080E57500CEC487 /* managers.py in Resources */,
 				C3B0EF13208B14E8008802BB /* loadBubble_0035_Layer-4@1x.png in Resources */,
 				C3B0EF16208B14E8008802BB /* loadBubble_0001_Layer-38@1x.png in Resources */,
 				C3B0EED3208B14E8008802BB /* loadBubble_0023_Layer-16@2x.png in Resources */,
 				C32305BA2080E57500CEC487 /* PythonFramework.zip in Resources */,
-				C323068A2080E57500CEC487 /* core.cpython-34.pyc in Resources */,
 				C3B0EED5208B14E8008802BB /* loadBubble_0020_Layer-19@2x.png in Resources */,
-				C32306612080E57500CEC487 /* uts46data.cpython-34.pyc in Resources */,
-				C32306862080E57500CEC487 /* exceptions.py in Resources */,
-				C32306D42080E57500CEC487 /* _implementation.py in Resources */,
-				C323062E2080E57500CEC487 /* version.py in Resources */,
-				C323064E2080E57500CEC487 /* big5prober.py in Resources */,
-				C32306E02080E57500CEC487 /* usersdatabase.py in Resources */,
 				C3B0EEDF208B14E8008802BB /* loadBubble_0037_Layer-2@2x.png in Resources */,
-				C323063E2080E57500CEC487 /* euctwprober.py in Resources */,
-				C323065C2080E57500CEC487 /* compat.cpython-34.pyc in Resources */,
-				C32306432080E57500CEC487 /* utf8prober.py in Resources */,
-				C32306D02080E57500CEC487 /* six.py in Resources */,
 				C3B0EF46208B14E9008802BB /* loadBubble_0003_Layer-36@3x.png in Resources */,
 				C3B0EF11208B14E8008802BB /* loadBubble_0012_Layer-27@1x.png in Resources */,
-				C32306A62080E57500CEC487 /* __init__.py in Resources */,
 				C39D46CF20A2CD6900C6CC99 /* Text.xcassets in Resources */,
-				C32306E12080E57500CEC487 /* __init__.py in Resources */,
-				C32306DD2080E57500CEC487 /* __init__.py in Resources */,
-				C32306782080E57500CEC487 /* exceptions.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
