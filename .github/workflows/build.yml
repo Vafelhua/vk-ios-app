@@ -31,8 +31,7 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             ONLY_ACTIVE_ARCH=NO \
-            PROVISIONING_PROFILE_SPECIFIER="" \
-            | tail -120
+            PROVISIONING_PROFILE_SPECIFIER=""
 
       - name: Package IPA
         run: |
