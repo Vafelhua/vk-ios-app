@@ -21,6 +21,7 @@ jobs:
 
       - name: Build unsigned app
         run: |
+          set -euo pipefail
           xcodebuild -workspace vk.xcworkspace \
             -scheme "Oxy Feed" \
             -sdk iphoneos \
