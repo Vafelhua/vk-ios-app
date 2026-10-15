@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import FBSDKCoreKit
-import HockeySDK
 import CocoaLumberjack
 
 extension Data {
@@ -56,8 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Override point for customization after application launch.
-        BITHockeyManager.shared().configure(withIdentifier: "b3125c1736c24cafbd158dd12bbf4af7")
-        BITHockeyManager.shared().start()
         self.pythonManager?.startupPython()
         self.screensManager?.createWindowIfNeeded()
         
@@ -112,7 +108,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 events.applicationDidBecomeActive()
             }
         }
-        FBSDKAppEvents.activateApp()
         UIApplication.shared.applicationIconBadgeNumber = 0
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }

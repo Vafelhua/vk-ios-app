@@ -278,7 +278,6 @@
 		C33583C220BA890F008B81AB /* NSError+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33583C120BA890F008B81AB /* NSError+Utils.swift */; };
 		C33583C420BA8FC9008B81AB /* BaseNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33583C320BA8FC9008B81AB /* BaseNode.swift */; };
 		C338CA4F20A1BF6600F30B77 /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C338CA4D20A1BF6600F30B77 /* FacebookSDKStrings.bundle */; };
-		C338CA5020A1BF6600F30B77 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C338CA4E20A1BF6600F30B77 /* FBSDKCoreKit.framework */; };
 		C338CA5220A1C05300F30B77 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338CA5120A1C05300F30B77 /* Analytics.swift */; };
 		C338CA5520A1C66F00F30B77 /* Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338CA5420A1C66F00F30B77 /* Modules.swift */; };
 		C33A1B1820B5300C00DD4D12 /* EulaAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33A1B1720B5300C00DD4D12 /* EulaAlertController.swift */; };
@@ -462,7 +461,6 @@
 		C39D471920A2CD7600C6CC99 /* BaseChatViewController+Scrolling.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39D46FD20A2CD7500C6CC99 /* BaseChatViewController+Scrolling.swift */; };
 		C39D471A20A2CD7600C6CC99 /* ReadOnlyOrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39D470020A2CD7600C6CC99 /* ReadOnlyOrderedDictionary.swift */; };
 		C39D471B20A2CD7600C6CC99 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39D470120A2CD7600C6CC99 /* Utils.swift */; };
-		C39D471D20A33D5B00C6CC99 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C39D471C20A33D5B00C6CC99 /* HockeySDK.framework */; };
 		C39D473520A424C400C6CC99 /* Sticker.m in Sources */ = {isa = PBXBuildFile; fileRef = C39D473420A424C400C6CC99 /* Sticker.m */; };
 		C39D473820A429FE00C6CC99 /* StickerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39D473720A429FE00C6CC99 /* StickerNode.swift */; };
 		C39D473B20A44B1100C6CC99 /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = C39D473A20A44B1100C6CC99 /* UIViewController+Utils.m */; };
@@ -2028,7 +2026,6 @@
 				C32306E72080E64B00CEC487 /* MobileCoreServices.framework in Frameworks */,
 				C32306E52080E64400CEC487 /* libz.tbd in Frameworks */,
 				C32306E32080E63D00CEC487 /* libsqlite3.tbd in Frameworks */,
-				C338CA5020A1BF6600F30B77 /* FBSDKCoreKit.framework in Frameworks */,
 				C32305C62080E57500CEC487 /* libPython-x86_64.a in Frameworks */,
 				C32305CD2080E57500CEC487 /* CocoaLumberjack.framework in Frameworks */,
 				C32305C72080E57500CEC487 /* libPython-armv7s.a in Frameworks */,
@@ -2043,7 +2040,6 @@
 				C32305CB2080E57500CEC487 /* libPython-armv7.a in Frameworks */,
 				C32305CE2080E57500CEC487 /* JGProgressHUD.framework in Frameworks */,
 				C32305C82080E57500CEC487 /* libPython-i386.a in Frameworks */,
-				C39D471D20A33D5B00C6CC99 /* HockeySDK.framework in Frameworks */,
 				FB941F17E1D15D12DB7C844B /* Pods_Oxy_Feed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

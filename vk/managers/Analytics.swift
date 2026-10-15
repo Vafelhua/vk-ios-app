@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import FBSDKCoreKit
 
 @objc protocol Analytics {
     func logEvent(_ name: String)
@@ -31,6 +30,5 @@ import FBSDKCoreKit
 
 extension AnalyticsImpl : Analytics, PyAnalyticsDelegate {
     func logEvent(_ name: String) {
-        FBSDKAppEvents.logEvent(name)
     }
 }
