@@ -429,7 +429,7 @@ extension MessageGroup {
     /**
      Notifies the delegate that the avatar was clicked
      */
-    public func avatarClicked() {
+    @objc public func avatarClicked() {
         self.delegate?.avatarClicked?(self)
     }
 }

@@ -42,9 +42,9 @@ open class HeadLoadingIndicator: GeneralMessengerCell {
         text.attributedText = NSAttributedString(
             string: "Loading…",
             attributes: [
-                NSFontAttributeName: UIFont.systemFont(ofSize: 12),
-                NSForegroundColorAttributeName: UIColor.lightGray,
-                NSKernAttributeName: -0.3
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12),
+                NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+                NSAttributedString.Key.kern: -0.3
             ])
         addSubnode(spinner)
     }
