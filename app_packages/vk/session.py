@@ -14,12 +14,12 @@ logger = logging.getLogger('vk')
 
 
 class Session(object):
-    LOGIN_URL = 'https://m.vk.com'
-    AUTHORIZE_URL = 'https://oauth.vk.com/authorize'
+    LOGIN_URL = 'https://openvk.org'
+    AUTHORIZE_URL = 'https://openvk.org/authorize'
 
-    API_URL = 'https://api.vk.com/method/'
+    API_URL = 'https://api.openvk.org/method/'
 
-    CAPTCHA_URI = 'https://m.vk.com/captcha.php'
+    CAPTCHA_URI = 'https://openvk.org/captcha'
 
     def __init__(self, user_login='', user_password='', app_id='', scope='offline', access_token='', timeout=10,
                  **method_default_args):
@@ -101,7 +101,7 @@ class Session(object):
             'display': 'mobile',
             'response_type': 'token',
             'scope': self.scope,
-            'v': '5.28',
+            'v': '5.106',
         }
         response = self.auth_session.post(self.AUTHORIZE_URL, auth_data)
         response_url_query = get_url_query(response.url)

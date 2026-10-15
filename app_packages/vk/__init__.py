@@ -32,7 +32,7 @@ def userId():
 def api():
     session = Session()
     api = API(session)
-    api.session.method_default_args['v'] = '5.74'
+    api.session.method_default_args['v'] = '5.106'
     api.session.method_default_args['access_token'] = token()
     return api
 

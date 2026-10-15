@@ -197,7 +197,7 @@ class PyPostsViewModel(ObjCBridgeProtocol):
             if cancelled:
                 return
             if items[index] == 'copy_url':
-                self.guiDelegate.copyUrl_(args=['https://vk.com/id' + str(ownerId)])
+                self.guiDelegate.copyUrl_(args=['https://openvk.org/id' + str(ownerId)])
             elif items[index] == 'report':
                 self.report('post', ownerId, postId)
             elif items[index] == 'it_is_not_interesting':

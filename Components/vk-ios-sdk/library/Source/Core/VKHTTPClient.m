@@ -30,7 +30,7 @@
 #import "VKUtil.h"
 
 static VKHTTPClient *__clientInstance = nil;
-static NSString const *VK_API_URI = @"api.vk.com/method/";
+static NSString const *VK_API_URI = @"api.openvk.org/method/";
 static NSString const *kVKMultipartFormBoundaryPrefix = @"VK_SDK";
 
 

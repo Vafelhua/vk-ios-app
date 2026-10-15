@@ -16,7 +16,7 @@
 static NSInteger const kCaptchaRequestId = 7777777;
 static NSInteger const kValidationResponseId = kCaptchaRequestId + 1;
 
-static NSString *kVkAppId = @"6442149";
+static NSString *kVkAppId = @"3140623";
 static NSInteger const kUserCancelledErrorCode = -999;
 
 
