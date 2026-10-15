@@ -17,6 +17,8 @@ target 'Oxy Feed' do
   pod 'SDCAlertView', :path => 'Components/SDCAlertView'
   pod 'TTTAttributedLabel', :path => 'Components/TTTAttributedLabel'
   pod 'PINCache', :path => 'Components/PINCache'
+  pod 'PINRemoteImage/iOS', :path => 'Components/PINRemoteImage'
+  pod 'PINRemoteImage/PINCache', :path => 'Components/PINRemoteImage'
 end
 
 post_install do |installer|
