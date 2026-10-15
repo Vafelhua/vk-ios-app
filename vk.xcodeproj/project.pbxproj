@@ -1,4 +1,4 @@
-// !$*UTF8*$!
+﻿// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
@@ -262,15 +262,11 @@
 		C323092B2081AEB100CEC487 /* NSInvocation+TCFUnwrapValues.m in Sources */ = {isa = PBXBuildFile; fileRef = C323088F2081AEB000CEC487 /* NSInvocation+TCFUnwrapValues.m */; };
 		C323092C2081AEB100CEC487 /* TyphoonComponentFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = C32308942081AEB000CEC487 /* TyphoonComponentFactory.m */; };
 		C323092D2081AEB100CEC487 /* TyphoonWeakComponentsPool.m in Sources */ = {isa = PBXBuildFile; fileRef = C32308982081AEB000CEC487 /* TyphoonWeakComponentsPool.m */; };
-		C323092E2081AEB100CEC487 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = C323089B2081AEB000CEC487 /* LICENSE */; };
-		C323092F2081AEB100CEC487 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C323089D2081AEB000CEC487 /* README.md */; };
-		C32309302081AEB100CEC487 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = C32308AB2081AEB000CEC487 /* LICENSE */; };
 		C32309312081AEB100CEC487 /* UIColor+NanoFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C32308AD2081AEB000CEC487 /* UIColor+NanoFrame.m */; };
 		C32309322081AEB100CEC487 /* UIView+NanoFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C32308B22081AEB000CEC487 /* UIView+NanoFrame.m */; };
 		C32309332081AEB100CEC487 /* CALayer+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = C32308B42081AEB000CEC487 /* CALayer+Image.m */; };
 		C32309342081AEB100CEC487 /* UIScreen+NanoFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C32308B62081AEB000CEC487 /* UIScreen+NanoFrame.m */; };
 		C32309352081AEB100CEC487 /* UIImage+NanoFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C32308B72081AEB000CEC487 /* UIImage+NanoFrame.m */; };
-		C32309362081AEB100CEC487 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C32308B82081AEB000CEC487 /* README.md */; };
 		C3333D402091A830009EBB09 /* DetailVideoServiceImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C3333D3F2091A830009EBB09 /* DetailVideoServiceImpl.m */; };
 		C3333D452091A8E0009EBB09 /* DetailVideoViewModelImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C3333D442091A8E0009EBB09 /* DetailVideoViewModelImpl.m */; };
 		C3333D492091A9A4009EBB09 /* DetailVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3333D482091A9A4009EBB09 /* DetailVideoViewController.m */; };
@@ -446,7 +442,6 @@
 		C39D470420A2CD7600C6CC99 /* ChatInputBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C39D46E520A2CD7500C6CC99 /* ChatInputBarViewController.m */; };
 		C39D470520A2CD7600C6CC99 /* MXRMessengerInputToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = C39D46E620A2CD7500C6CC99 /* MXRMessengerInputToolbar.m */; };
 		C39D470620A2CD7600C6CC99 /* SerialTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39D46E720A2CD7500C6CC99 /* SerialTaskQueue.swift */; };
-		C39D470720A2CD7600C6CC99 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C39D46E820A2CD7500C6CC99 /* Info.plist */; };
 		C39D470820A2CD7600C6CC99 /* BaseChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39D46EA20A2CD7500C6CC99 /* BaseChatItemPresenter.swift */; };
 		C39D470920A2CD7600C6CC99 /* ChatItemCompanion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39D46EB20A2CD7500C6CC99 /* ChatItemCompanion.swift */; };
 		C39D470A20A2CD7600C6CC99 /* DummyChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39D46EC20A2CD7500C6CC99 /* DummyChatItemPresenter.swift */; };
@@ -5775,7 +5770,6 @@
 				C3B0EF07208B14E8008802BB /* loadBubble_0005_Layer-34@1x.png in Resources */,
 				C32306062080E57500CEC487 /* Main.storyboard in Resources */,
 				C3B0EF3E208B14E8008802BB /* loadBubble_0038_Layer-1@3x.png in Resources */,
-				C39D470720A2CD7600C6CC99 /* Info.plist in Resources */,
 				C3B0EEEC208B14E8008802BB /* loadBubble_0021_Layer-18@2x.png in Resources */,
 				C3B0EF2E208B14E8008802BB /* loadBubble_0033_Layer-6@3x.png in Resources */,
 				C3B0EF03208B14E8008802BB /* loadBubble_0010_Layer-29@1x.png in Resources */,
@@ -5795,7 +5789,6 @@
 				C39D46B420A2CD6900C6CC99 /* CircleProgressIndicator.xcassets in Resources */,
 				C3B0EEE9208B14E8008802BB /* loadBubble_0013_Layer-26@2x.png in Resources */,
 				C32305FF2080E57500CEC487 /* Default-736h@3x.png in Resources */,
-				C323092E2081AEB100CEC487 /* LICENSE in Resources */,
 				C3B0EF27208B14E8008802BB /* loadBubble_0031_Layer-8@3x.png in Resources */,
 				C3B0EF19208B14E8008802BB /* loadBubble_0002_Layer-37@1x.png in Resources */,
 				C3B0EF18208B14E8008802BB /* loadBubble_0007_Layer-32@1x.png in Resources */,
@@ -5812,7 +5805,6 @@
 				C3B0EF20208B14E8008802BB /* loadBubble_0002_Layer-37@3x.png in Resources */,
 				C3B0EF3F208B14E9008802BB /* loadBubble_0015_Layer-24@3x.png in Resources */,
 				C32305EE2080E57500CEC487 /* Assets.xcassets in Resources */,
-				C32309362081AEB100CEC487 /* README.md in Resources */,
 				C39D46D720A2CD6900C6CC99 /* Photos.xcassets in Resources */,
 				C3B0EF2C208B14E8008802BB /* loadBubble_0025_Layer-14@3x.png in Resources */,
 				C3B0EEE0208B14E8008802BB /* loadBubble_0028_Layer-11@2x.png in Resources */,
@@ -5863,14 +5855,12 @@
 				C3B0EF0D208B14E8008802BB /* loadBubble_0033_Layer-6@1x.png in Resources */,
 				C39D46AA20A2CD6900C6CC99 /* PhotoMessageAssets.xcassets in Resources */,
 				C3B0EEF4208B14E8008802BB /* loadBubble_0032_Layer-7@2x.png in Resources */,
-				C323092F2081AEB100CEC487 /* README.md in Resources */,
 				197D8B141D64BA50004630AE /* Main.storyboard in Resources */,
 				C3B0EF25208B14E8008802BB /* loadBubble_0023_Layer-16@3x.png in Resources */,
 				C3B0EF44208B14E9008802BB /* loadBubble_0021_Layer-18@3x.png in Resources */,
 				C3B0EEE7208B14E8008802BB /* loadBubble_0010_Layer-29@2x.png in Resources */,
 				C3B0EEFF208B14E8008802BB /* loadBubble_0000_Layer-39@1x.png in Resources */,
 				C3B0EF39208B14E8008802BB /* loadBubble_0029_Layer-10@3x.png in Resources */,
-				C32309302081AEB100CEC487 /* LICENSE in Resources */,
 				C3B0EEE5208B14E8008802BB /* loadBubble_0005_Layer-34@2x.png in Resources */,
 				C32305D82080E57500CEC487 /* Localizable.strings in Resources */,
 				C3B0EF33208B14E8008802BB /* loadBubble_0016_Layer-23@3x.png in Resources */,
