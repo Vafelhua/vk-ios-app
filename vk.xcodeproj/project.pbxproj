@@ -139,6 +139,7 @@
 		C32306242080E57500CEC487 /* Functions.m in Sources */ = {isa = PBXBuildFile; fileRef = C32304D92080E57400CEC487 /* Functions.m */; };
 		C32306252080E57500CEC487 /* PythonBridgeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C32304DE2080E57400CEC487 /* PythonBridgeHandler.m */; };
 		C32306262080E57500CEC487 /* app_packages.zip in Resources */ = {isa = PBXBuildFile; fileRef = C32304DF2080E57400CEC487 /* app_packages.zip */; };
+		C3A9F0012C4D5E6F70819203 /* launcher.py in Resources */ = {isa = PBXBuildFile; fileRef = C32305542080E57500CEC487 /* launcher.py */; };
 		C323068C2080E57500CEC487 /* cacert.pem in Resources */ = {isa = PBXBuildFile; fileRef = C32305522080E57500CEC487 /* cacert.pem */; };
 		C32306E32080E63D00CEC487 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C32306E22080E63C00CEC487 /* libsqlite3.tbd */; };
 		C32306E52080E64400CEC487 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C32306E42080E64400CEC487 /* libz.tbd */; };
@@ -5770,6 +5771,7 @@
 				C3B0EF2E208B14E8008802BB /* loadBubble_0033_Layer-6@3x.png in Resources */,
 				C3B0EF03208B14E8008802BB /* loadBubble_0010_Layer-29@1x.png in Resources */,
 				C32306262080E57500CEC487 /* app_packages.zip in Resources */,
+				C3A9F0012C4D5E6F70819203 /* launcher.py in Resources */,
 				C3B0EECF208B14E8008802BB /* loadBubble_0019_Layer-20@2x.png in Resources */,
 				C3B0EF3A208B14E8008802BB /* loadBubble_0008_Layer-31@3x.png in Resources */,
 				C3B0EF0A208B14E8008802BB /* loadBubble_0028_Layer-11@1x.png in Resources */,

@@ -29,6 +29,45 @@ void ASDisableLogging(); // Look inside
 
 int initializePython(int argc, char *argv[], PythonManagerImpl *self);
 
+static NSString *pythonLogPath(void) {
+    return [getDocumentsDirectory() stringByAppendingPathComponent:@"Library/python.log"];
+}
+
+static void showPythonFailure(int ret) {
+    NSString *logPath = pythonLogPath();
+    NSString *marker = [NSString stringWithFormat:@"\n[Python exited with code %d]\n", ret];
+    NSFileHandle *fh = [NSFileHandle fileHandleForWritingAtPath:logPath];
+    if (fh != nil) {
+        @try {
+            [fh seekToEndOfFile];
+            [fh writeData:[marker dataUsingEncoding:NSUTF8StringEncoding]];
+        } @catch (NSException *e) {}
+        [fh closeFile];
+    } else {
+        [marker writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+
+    NSString *log = [NSString stringWithContentsOfFile:logPath encoding:NSUTF8StringEncoding error:nil];
+    if (log.length > 4000) {
+        log = [log substringFromIndex:log.length - 4000];
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIWindow *w = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        w.windowLevel = UIWindowLevelAlert + 1;
+        w.rootViewController = [[UIViewController alloc] init];
+        w.hidden = NO;
+        UIAlertController *alert =
+            [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Python startup failed (code %d)", ret]
+                                                message:(log.length > 0 ? log : @"(log is empty)")
+                                         preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Close"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction *action) { w.hidden = YES; }]];
+        [w.rootViewController presentViewController:alert animated:YES completion:nil];
+    });
+}
+
 - (void)startupPython {
     //ASDisableLogging();
     __block int ret = 0;
@@ -36,8 +75,14 @@ int initializePython(int argc, char *argv[], PythonManagerImpl *self);
     __block int argc = 1;
     dispatch_async(queue, ^{
         char *argv[1];
-        ret = initializePython(argc, argv, self);
-        exit(ret);
+        @try {
+            ret = initializePython(argc, argv, self);
+        } @catch (NSException *exception) {
+            NSString *msg = [NSString stringWithFormat:@"[ObjC exception in initializePython: %@]\n", [exception reason]];
+            [[NSFileHandle fileHandleForWritingAtPath:pythonLogPath()] writeData:[msg dataUsingEncoding:NSUTF8StringEncoding]];
+            ret = -2;
+        }
+        showPythonFailure(ret);
     });
 }
 
@@ -107,6 +152,12 @@ int initializePython(int argc, char *argv[], PythonManagerImpl *self) {
         NSString *pureDocumentsDirectory = getDocumentsDirectory();
         NSString *documentsDirectory = [pureDocumentsDirectory stringByAppendingString:@"/Library"];
         extractResourcesIfNeeded();
+        NSString *logPath = pythonLogPath();
+        [[NSFileManager defaultManager] createFileAtPath:logPath contents:[NSData data] attributes:nil];
+        freopen([logPath fileSystemRepresentation], "a", stdout);
+        freopen([logPath fileSystemRepresentation], "a", stderr);
+        setvbuf(stdout, NULL, _IONBF, 0);
+        setvbuf(stderr, NULL, _IONBF, 0);
         // Special environment to prefer .pyo; also, don't write bytecode
         // because the process will not have write permissions on the device.
         putenv("PYTHONOPTIMIZE=1");
@@ -139,8 +190,8 @@ int initializePython(int argc, char *argv[], PythonManagerImpl *self) {
                                                        ofType:@"py"] cStringUsingEncoding:NSUTF8StringEncoding];
         
         if (main_script == NULL) {
-            DDLogInfo(@"Unable to locate HelloBee main module file");
-            exit(-1);
+            DDLogInfo(@"Unable to locate launcher.py in app bundle");
+            return -1;
         }
         
         
