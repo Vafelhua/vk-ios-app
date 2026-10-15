@@ -13,3 +13,5 @@ scripts/Texture*
 scripts/Tex_ture*
 *.xcworkspacedata
 
+__pycache__/
+*.pyc
