@@ -25,7 +25,14 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
-      config.build_settings['SWIFT_VERSION'] = '4.0'
+      # DOCheckboxControl 3.0.0 (Feb 2019) is written for Swift 4.2+/5 (CAShapeLayerLineCap.round
+      # etc.), which does not compile under Swift 4.0 language mode with modern SDKs where
+      # NSString-typed API shims still apply. Keep everything else on 4.0 for the main app's sake.
+      if target.name == 'DOCheckboxControl'
+        config.build_settings['SWIFT_VERSION'] = '5.0'
+      else
+        config.build_settings['SWIFT_VERSION'] = '4.0'
+      end
       config.build_settings['OTHER_CFLAGS'] = '$(inherited) -Wno-incompatible-function-pointer-types'
     end
   end
