@@ -23,6 +23,7 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
       config.build_settings['SWIFT_VERSION'] = '4.0'
+      config.build_settings['OTHER_CFLAGS'] = '$(inherited) -Wno-incompatible-block-pointer-types -Wno-incompatible-function-pointer-types'
     end
   end
 end
