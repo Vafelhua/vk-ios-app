@@ -15,6 +15,7 @@ static NSString *const kOpenVKAuthorize = @"https://openvk.org/authorize";
 static NSString *const kOpenVKClientId = @"3140623";
 static NSString *const kOpenVKScope = @"friends,email,messages,notifications,groups,docs,wall,notes,status,stories,video,audio,photos,offline";
 static NSString *const kLoginUA = @"Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
+static NSString *const kUserConfirmedPrivacyPolicyKey = @"kUserConfirmedPrivacyPolicy";
 
 typedef void (^VKLoginResponseBlock)(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error);
 
@@ -241,9 +242,10 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
 
 #pragma mark - Private
 - (void)closeTapped {
-    if (self.navigationController.viewControllers.firstObject != self) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } else {
+    UINavigationController *navigationController = self.navigationController;
+    if (navigationController != nil && navigationController.viewControllers.firstObject != self) {
+        [navigationController popViewControllerAnimated:YES];
+    } else if (self.presentingViewController != nil) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -271,6 +273,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
 @property id<NotificationsManager> notificationsManager;
 @property (nonatomic, strong) NSURLSession *loginSession;
 @property (nonatomic, strong) VKLoginSessionDelegate *loginSessionDelegate;
+@property (nonatomic, strong) VKNativeLoginViewController *loginForm;
 @end
 
 @implementation AuthorizationViewModelImpl
@@ -297,6 +300,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
     _viewController = viewController;
     if (_viewController) {
         [self initializeVkSdkManager];
+        [self embedLoginForm];
     }
 }
 
@@ -487,8 +491,13 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
     }];
 }
 
-- (void)presentNativeLogin {
+- (void)embedLoginForm {
+    if (_loginForm != nil || self.viewController == nil) {
+        return;
+    }
     VKNativeLoginViewController *form = [VKNativeLoginViewController new];
+    _loginForm = form;
+    form.navigationItem.leftBarButtonItem = nil;
     @weakify(self);
     @weakify(form);
     form.completion = ^(NSString *login, NSString *password) {
@@ -497,26 +506,63 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         if (self == nil || form == nil) {
             return;
         }
+        [self beginNativeLoginWithLogin:login password:password form:form];
+    };
+    UIViewController *parent = self.viewController;
+    [parent addChildViewController:form];
+    form.view.frame = parent.view.bounds;
+    form.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [parent.view addSubview:form.view];
+    [form didMoveToParentViewController:parent];
+}
+
+- (void)beginNativeLoginWithLogin:(NSString *)login password:(NSString *)password form:(VKNativeLoginViewController *)form {
+    BOOL confirmed = [[NSUserDefaults standardUserDefaults] boolForKey:kUserConfirmedPrivacyPolicyKey];
+    if (confirmed) {
         [form showProgress];
         [self performNativeLoginWithLogin:login password:password form:form];
-    };
-    UINavigationController *navigationController = self.viewController.navigationController;
-    if (navigationController != nil) {
-        [navigationController pushViewController:form animated:YES];
-    } else {
-        UINavigationController *wrapper = [[UINavigationController alloc] initWithRootViewController:form];
-        wrapper.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self.viewController presentViewController:wrapper animated:YES completion:nil];
+        return;
     }
+    EulaAlertController *alert = [EulaAlertController new];
+    @weakify(self);
+    @weakify(form);
+    @weakify(alert);
+    alert.needsShowEulaViewControllerBlock = ^{
+        @strongify(self);
+        @strongify(alert);
+        if (alert != nil) {
+            [alert dismiss:YES completion:nil];
+        }
+        dispatch_python(^{
+            @strongify(self);
+            [self.handler showEula];
+        });
+    };
+    alert.finishedBlock = ^(BOOL isPrivacyPolicyConfirmed) {
+        @strongify(self);
+        @strongify(form);
+        if (self == nil || form == nil) {
+            return;
+        }
+        if (isPrivacyPolicyConfirmed) {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserConfirmedPrivacyPolicyKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [form showProgress];
+            [self performNativeLoginWithLogin:login password:password form:form];
+        } else {
+            [form showError:@"Для входа необходимо принять условия использования"];
+        }
+    };
+    [alert present:self.viewController];
 }
 
 #pragma mark - AuthorizationViewModel
 - (void)authorizeByApp {
-    [self presentNativeLogin];
+    [self embedLoginForm];
 }
 
 - (void)authorizeByLogin {
-    [self presentNativeLogin];
+    [self embedLoginForm];
 }
 
 - (void)showEula {
