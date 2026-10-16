@@ -148,9 +148,9 @@ static NSString *VKUIMimeTypeForExtension(NSString *ext) {
         }
     }
     if (injection.length > 0) {
-        WKUserScript *script = [[WKUserScript alloc] initWithSourceCode:injection
-                                                         injectionTime:WKUserScriptInjectionTimeAtDocumentStart
-                                                      forMainFrameOnly:YES];
+        WKUserScript *script = [[WKUserScript alloc] initWithSource:injection
+                                                     injectionTime:WKUserScriptInjectionTimeAtDocumentStart
+                                                  forMainFrameOnly:YES];
         [configuration.userContentController addUserScript:script];
     }
 
