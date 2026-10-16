@@ -164,14 +164,12 @@ static NSDictionary<NSString *, NSString *> *VKURLParams(NSURL *url) {
     return params;
 }
 
-static BOOL VKHasAuthCookies(void) {
-    for (NSHTTPCookie *cookie in [NSHTTPCookieStorage sharedHTTPCookieStorage].cookies) {
-        if (([cookie.name isEqualToString:@"remixsid"] || [cookie.name isEqualToString:@"remixsid6"]) &&
-            [cookie.domain containsString:@"openvk.org"]) {
-            return YES;
-        }
+static BOOL VKHTMLContainsErrorFlash(NSString *html) {
+    if (html.length == 0) {
+        return NO;
     }
-    return NO;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"class=\"[^\"]*error" options:NSRegularExpressionCaseInsensitive error:nil];
+    return [regex firstMatchInString:html options:0 range:NSMakeRange(0, html.length)] != nil;
 }
 
 #pragma mark - VKLoginSessionDelegate
@@ -541,17 +539,25 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
     });
 }
 
-- (void)requestAccessTokenWithForm:(VKNativeLoginViewController *)form {
-    NSURL *authorizeURL = [NSURL URLWithString:kOpenVKAuthorize];
-    NSDictionary *fields = @{
-        @"client_id": kOpenVKClientId,
-        @"display": @"mobile",
-        @"response_type": @"token",
-        @"scope": kOpenVKScope,
-        @"v": @"5.106",
-    };
+- (void)reportAccessTokenFailureWithHtml:(NSString *)loginFailedHtml form:(VKNativeLoginViewController *)form {
+    if (VKHTMLContainsErrorFlash(loginFailedHtml)) {
+        [self failLogin:@"Неверный логин или пароль" form:form];
+    } else {
+        [self failLogin:@"Не удалось выдать токен доступа. Повторите попытку." form:form];
+    }
+}
+
+- (void)requestAccessTokenWithForm:(VKNativeLoginViewController *)form loginFailedHtml:(NSString *)loginFailedHtml {
+    NSCharacterSet *allowed = [NSCharacterSet characterSetWithCharactersInString:
+        @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._*"];
+    NSString *encodedRedirect = [@"vk3140623://authorize" stringByAddingPercentEncodingWithAllowedCharacters:allowed];
+    NSString *encodedScope = [kOpenVKScope stringByAddingPercentEncodingWithAllowedCharacters:allowed];
+    NSString *authorizeURLString = [NSString stringWithFormat:
+        @"https://openvk.org/authorize?client_id=%@&display=mobile&response_type=token&redirect_uri=%@&scope=%@&v=5.106",
+        kOpenVKClientId, encodedRedirect, encodedScope];
+    NSURL *authorizeURL = [NSURL URLWithString:authorizeURLString];
     @weakify(self);
-    [self vkRequest:authorizeURL fields:fields completion:^(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error) {
+    [self vkRequest:authorizeURL fields:nil completion:^(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error) {
         @strongify(self);
         if (self == nil) {
             return;
@@ -566,23 +572,66 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         }
         NSString *html = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSString *action = VKExtractFormAction(html);
-        if (action.length == 0) {
-            [self failLogin:@"Не удалось выдать токен доступа (форма разрешения)" form:form];
+        if (action.length > 0) {
+            NSURL *actionURL = [NSURL URLWithString:action relativeToURL:authorizeURL].absoluteURL;
+            [self vkRequest:actionURL fields:nil completion:^(NSHTTPURLResponse *response2, NSData *data2, NSURL *vkRedirectURL2, NSError *error2) {
+                @strongify(self);
+                if (self == nil) {
+                    return;
+                }
+                if (vkRedirectURL2 != nil) {
+                    [self completeLoginWithRedirect:vkRedirectURL2 form:form];
+                    return;
+                }
+                [self reportAccessTokenFailureWithHtml:loginFailedHtml form:form];
+            }];
             return;
         }
-        NSURL *actionURL = [NSURL URLWithString:action relativeToURL:authorizeURL].absoluteURL;
-        [self vkRequest:actionURL fields:nil completion:^(NSHTTPURLResponse *response2, NSData *data2, NSURL *vkRedirectURL2, NSError *error2) {
-            @strongify(self);
-            if (self == nil) {
-                return;
-            }
-            if (vkRedirectURL2 != nil) {
-                [self completeLoginWithRedirect:vkRedirectURL2 form:form];
-                return;
-            }
-            [self failLogin:@"Не удалось выдать токен доступа" form:form];
-        }];
+        [self reportAccessTokenFailureWithHtml:loginFailedHtml form:form];
     }];
+}
+
+- (void)promptTwoFactorCodeWithHtml:(NSString *)html
+                          actionURL:(NSURL *)actionURL
+                        loginFields:(NSDictionary<NSString *, NSString *> *)loginFields
+                              form:(VKNativeLoginViewController *)form {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertController *alert =
+            [UIAlertController alertControllerWithTitle:@"Двухфакторная авторизация"
+                                                message:@"Введите код подтверждения из приложения-генератора"
+                                         preferredStyle:UIAlertControllerStyleAlert];
+        [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            textField.keyboardType = UIKeyboardTypeNumberPad;
+            textField.placeholder = @"Код";
+        }];
+        @weakify(self);
+        @weakify(form);
+        [alert addAction:[UIAlertAction actionWithTitle:@"Отмена"
+                                                  style:UIAlertActionStyleCancel
+                                                handler:^(UIAlertAction *action) {
+            @strongify(form);
+            [form showError:@"Не введён код двухфакторной авторизации"];
+        }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Войти"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction *action) {
+            @strongify(self);
+            @strongify(form);
+            if (self == nil || form == nil) {
+                return;
+            }
+            NSString *code = alert.textFields.firstObject.text ?: @"";
+            if (code.length == 0) {
+                [form showError:@"Не введён код двухфакторной авторизации"];
+                return;
+            }
+            NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithDictionary:loginFields];
+            fields[@"code"] = code;
+            [form showProgress];
+            [self performLoginPOSTWithAction:actionURL fields:fields form:form];
+        }]];
+        [self.viewController presentViewController:alert animated:YES completion:nil];
+    });
 }
 
 - (void)performLoginPOSTWithAction:(NSURL *)actionURL
@@ -594,12 +643,15 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         if (self == nil) {
             return;
         }
-        if (VKHasAuthCookies()) {
-            [self requestAccessTokenWithForm:form];
-            return;
-        }
         if (error != nil || response == nil) {
             [self failLogin:@"Ошибка сети. Проверьте подключение к интернету." form:form];
+            return;
+        }
+        NSString *html = data.length > 0 ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+        if (html != nil &&
+            [html rangeOfString:@"name=\"code\""].location != NSNotFound &&
+            [html rangeOfString:@"name=\"password\""].location != NSNotFound) {
+            [self promptTwoFactorCodeWithHtml:html actionURL:actionURL loginFields:loginFields form:form];
             return;
         }
         NSDictionary<NSString *, NSString *> *params = VKURLParams(response.URL);
@@ -615,7 +667,9 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
             [self failLogin:@"Необходимо подтвердить номер телефона на сайте openvk.org." form:form];
             return;
         }
-        [self failLogin:@"Неверный логин или пароль" form:form];
+        // OpenVK хранит авторизацию в серверной сессии (CHANDLERSESS), а не в cookie remixsid,
+        // поэтому сразу запрашиваем токен — он выдаётся только при успешном входе.
+        [self requestAccessTokenWithForm:form loginFailedHtml:html];
     }];
 }
 
