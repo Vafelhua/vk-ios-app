@@ -168,7 +168,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
     [_loginButton setTitle:@"Войти" forState:UIControlStateNormal];
     [_loginButton setTitleColor:[UIColor colorWithRed:70.0/255.0 green:100.0/255.0 blue:140.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     _loginButton.titleLabel.font = [UIFont boldSystemFontOfSize:17.0];
-    _loginButton.backgroundColor = [UIColor whiteColor].alphaComponent(0.5);
+    _loginButton.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     _loginButton.layer.cornerRadius = 4.0;
     [_loginButton addTarget:self action:@selector(loginTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_loginButton];
@@ -177,7 +177,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
     [self.view addGestureRecognizer:tap];
 
     self.navigationItem.leftBarButtonItem =
-        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemClose
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                       target:self
                                                       action:@selector(closeTapped)];
 }
@@ -395,7 +395,11 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
             [self completeLoginWithRedirect:vkRedirectURL form:form];
             return;
         }
-        NSString *html = data != nil ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+        if (error != nil || data == nil) {
+            [self failLogin:@"Ошибка сети. Проверьте подключение к интернету." form:form];
+            return;
+        }
+        NSString *html = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSString *action = VKExtractFormAction(html);
         if (action.length == 0) {
             [self failLogin:@"Не удалось выдать токен доступа (форма разрешения)" form:form];
@@ -438,6 +442,10 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
             [self requestAccessTokenWithForm:form];
             return;
         }
+        if (error != nil || response == nil) {
+            [self failLogin:@"Ошибка сети. Проверьте подключение к интернету." form:form];
+            return;
+        }
         NSDictionary<NSString *, NSString *> *params = VKURLParams(response.URL);
         if (params[@"sid"] != nil) {
             [self failLogin:@"OpenVK запросил капчу. Повторите попытку позже или войдите на openvk.org в браузере." form:form];
@@ -464,7 +472,11 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         if (self == nil) {
             return;
         }
-        NSString *html = data != nil ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+        if (error != nil || data == nil) {
+            [self failLogin:@"Ошибка сети. Проверьте подключение к интернету." form:form];
+            return;
+        }
+        NSString *html = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSString *action = VKExtractFormAction(html);
         if (action.length == 0) {
             [self failLogin:@"Не удалось загрузить форму входа OpenVK" form:form];
