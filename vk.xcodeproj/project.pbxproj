@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC2CB67C4ACC73D551F92DC7 /* VKUIWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A800FDD46D52AC60BF88890 /* VKUIWebViewViewController.m */; };
+		EE5F1839C7F87219231F2519 /* vkui in Resources */ = {isa = PBXBuildFile; fileRef = 82EA5A98F20769C73938BCF0 /* vkui */; };
 		197D8B0F1D64BA50004630AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D8B0E1D64BA50004630AE /* AppDelegate.swift */; };
 		197D8B141D64BA50004630AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 197D8B121D64BA50004630AE /* Main.storyboard */; };
 		C3036C0B208DC99A005F086E /* SectionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3036C0A208DC99A005F086E /* SectionsTableViewController.m */; };
@@ -662,6 +664,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A37D24BEA36076DA3E02A42A /* VKUIWebViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vk/ViewControllers/VKUIWebView/VKUIWebViewViewController.h; sourceTree = SOURCE_ROOT; };
+		6A800FDD46D52AC60BF88890 /* VKUIWebViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vk/ViewControllers/VKUIWebView/VKUIWebViewViewController.m; sourceTree = SOURCE_ROOT; };
+		82EA5A98F20769C73938BCF0 /* vkui */ = {isa = PBXFileReference; lastKnownFileType = folder; path = vkui; sourceTree = SOURCE_ROOT; };
 		030C5587B34B49B1F718D13D /* Pods-MessageGroupsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessageGroupsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MessageGroupsUITests/Pods-MessageGroupsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		197D8B0B1D64BA50004630AE /* Oxy Feed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oxy Feed.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		197D8B0E1D64BA50004630AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -2048,6 +2053,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F3E59108120D447F4862E51 /* VKUIWebView */ = {
+			isa = PBXGroup;
+			children = (
+				A37D24BEA36076DA3E02A42A /* VKUIWebViewViewController.h */,
+				6A800FDD46D52AC60BF88890 /* VKUIWebViewViewController.m */,
+			);
+			path = VKUIWebView;
+			sourceTree = "<group>";
+		};
 		197D8B021D64BA50004630AE = {
 			isa = PBXGroup;
 			children = (
@@ -3299,6 +3313,7 @@
 		C32304E12080E57400CEC487 /* objcbridge */ = {
 			isa = PBXGroup;
 			children = (
+				82EA5A98F20769C73938BCF0 /* vkui */,
 				C32304E22080E57400CEC487 /* subscriber.py */,
 				C32304E32080E57400CEC487 /* __init__.py */,
 				C32304E42080E57400CEC487 /* parser.py */,
@@ -5625,6 +5640,7 @@
 		C3D4873C20919B86007EC440 /* AuthorizationViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				1F3E59108120D447F4862E51 /* VKUIWebView */,
 				C3D4874020919BAB007EC440 /* AuthorizationViewModel.h */,
 				C3D4873D20919BA1007EC440 /* AuthorizationViewModelImpl.h */,
 				C3D4873E20919BA1007EC440 /* AuthorizationViewModelImpl.m */,
@@ -5752,6 +5768,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE5F1839C7F87219231F2519 /* vkui in Resources */,
 				C36CD87320B52722002703D1 /* EulaAlertView.xib in Resources */,
 				C3B0EF04208B14E8008802BB /* loadBubble_0013_Layer-26@1x.png in Resources */,
 				C3B0EEF6208B14E8008802BB /* loadBubble_0032_Layer-7@1x.png in Resources */,
@@ -6014,6 +6031,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC2CB67C4ACC73D551F92DC7 /* VKUIWebViewViewController.m in Sources */,
 				C39D46DB20A2CD6900C6CC99 /* PhotosInputPlaceholderDataProvider.swift in Sources */,
 				C323092C2081AEB100CEC487 /* TyphoonComponentFactory.m in Sources */,
 				C39D46E020A2CD6900C6CC99 /* PhotosInputCell.swift in Sources */,

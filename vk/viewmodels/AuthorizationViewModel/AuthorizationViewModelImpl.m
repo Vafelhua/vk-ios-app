@@ -9,6 +9,7 @@
 #import "AuthorizationViewModelImpl.h"
 #import <VK-ios-sdk/VKSdk.h>
 #import "Oxy_Feed-Swift.h"
+#import "VKUIWebViewViewController.h"
 #import <CommonCrypto/CommonDigest.h>
 
 static NSString *const kOpenVKHome = @"https://openvk.org";
@@ -409,6 +410,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
     @weakify(self);
     _vkManager.getTokenSuccess = ^(VKAccessToken *token) {
         @strongify(self);
+        [VKUIWebViewViewController presentWithToken:token.accessToken userId:token.userId];
         dispatch_python(^{
             @strongify(self);
             DDLogInfo(@"received vk token: %@", token.accessToken);
