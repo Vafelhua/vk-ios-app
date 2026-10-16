@@ -9,6 +9,7 @@
 #import "AuthorizationViewModelImpl.h"
 #import <VK-ios-sdk/VKSdk.h>
 #import "Oxy_Feed-Swift.h"
+#import <CommonCrypto/CommonDigest.h>
 
 static NSString *const kOpenVKHome = @"https://openvk.org";
 static NSString *const kOpenVKAuthorize = @"https://openvk.org/authorize";
@@ -35,7 +36,7 @@ static NSString *VKExtractFormAction(NSString *html) {
     if (html.length == 0) {
         return nil;
     }
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<form(?= ).* action=\"(.+)\"" options:0 error:nil];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<form[^>]*action=\"([^\"]*)\"" options:0 error:nil];
     NSTextCheckingResult *match = [regex firstMatchInString:html options:0 range:NSMakeRange(0, html.length)];
     if (match && match.numberOfRanges > 1) {
         NSRange range = [match rangeAtIndex:1];
@@ -44,6 +45,105 @@ static NSString *VKExtractFormAction(NSString *html) {
         }
     }
     return nil;
+}
+
+static NSString *VKHTMLAttrValue(NSString *tag, NSString *attr) {
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"%@=\"([^\"]*)\"", attr] options:0 error:nil];
+    NSTextCheckingResult *match = [regex firstMatchInString:tag options:0 range:NSMakeRange(0, tag.length)];
+    if (match && match.numberOfRanges > 1) {
+        NSRange range = [match rangeAtIndex:1];
+        if (range.location != NSNotFound) {
+            return [tag substringWithRange:range];
+        }
+    }
+    return nil;
+}
+
+static NSDictionary<NSString *, NSString *> *VKExtractLoginHiddenFields(NSString *html) {
+    NSMutableDictionary *fields = [NSMutableDictionary dictionary];
+    if (html.length == 0) {
+        return fields;
+    }
+    NSRange formStart = [html rangeOfString:@"<form"];
+    if (formStart.location == NSNotFound) {
+        return fields;
+    }
+    NSRange formEnd = [html rangeOfString:@"</form>" options:0 range:NSMakeRange(formStart.location, html.length - formStart.location)];
+    NSString *formBody = formEnd.location != NSNotFound ? [html substringWithRange:NSMakeRange(formStart.location, formEnd.location - formStart.location)] : html;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<input[^>]*type=\"hidden\"[^>]*>" options:0 error:nil];
+    for (NSTextCheckingResult *match in [regex matchesInString:formBody options:0 range:NSMakeRange(0, formBody.length)]) {
+        NSString *tag = [formBody substringWithRange:match.range];
+        NSString *name = VKHTMLAttrValue(tag, @"name");
+        NSString *value = VKHTMLAttrValue(tag, @"value") ?: @"";
+        if (name.length > 0) {
+            fields[name] = value;
+        }
+    }
+    return fields;
+}
+
+static NSDictionary *VKParseAnubisChallenge(NSString *html) {
+    if (html.length == 0) {
+        return nil;
+    }
+    NSRange marker = [html rangeOfString:@"id=\"anubis_challenge\""];
+    if (marker.location == NSNotFound) {
+        return nil;
+    }
+    NSRange open = [html rangeOfString:@">" options:0 range:NSMakeRange(marker.location, html.length - marker.location)];
+    if (open.location == NSNotFound) {
+        return nil;
+    }
+    NSRange close = [html rangeOfString:@"</script>" options:0 range:NSMakeRange(open.location + 1, html.length - open.location - 1)];
+    if (close.location == NSNotFound) {
+        return nil;
+    }
+    NSString *json = [html substringWithRange:NSMakeRange(open.location + 1, close.location - open.location - 1)];
+    NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
+    id object = data != nil ? [NSJSONSerialization JSONObjectWithData:data options:0 error:nil] : nil;
+    return [object isKindOfClass:[NSDictionary class]] ? object : nil;
+}
+
+static BOOL VKSolveAnubisPow(NSDictionary *challenge, NSString **outDigest, NSString **outNonce, NSInteger *outElapsedMs) {
+    NSDictionary *inner = [challenge isKindOfClass:[NSDictionary class]] ? challenge[@"challenge"] : nil;
+    NSString *randomData = inner[@"randomData"];
+    NSString *challengeId = inner[@"id"];
+    NSInteger difficulty = [inner[@"difficulty"] integerValue];
+    if (randomData.length == 0 || challengeId.length == 0 || difficulty <= 0) {
+        return NO;
+    }
+    NSDate *start = [NSDate date];
+    NSData *prefix = [randomData dataUsingEncoding:NSUTF8StringEncoding];
+    NSUInteger fullZeroBytes = (NSUInteger)difficulty / 2;
+    BOOL halfNeeded = ((NSUInteger)difficulty % 2) != 0;
+    const NSUInteger kMaxNonce = 20000000;
+    for (NSUInteger nonce = 0; nonce < kMaxNonce; nonce++) {
+        NSString *nonceString = [NSString stringWithFormat:@"%lu", (unsigned long)nonce];
+        NSMutableData *buffer = [prefix mutableCopy];
+        [buffer appendData:[nonceString dataUsingEncoding:NSUTF8StringEncoding]];
+        unsigned char digestBytes[CC_SHA256_DIGEST_LENGTH];
+        CC_SHA256(buffer.bytes, (CC_LONG)buffer.length, digestBytes);
+        BOOL ok = YES;
+        for (NSUInteger i = 0; i < fullZeroBytes && ok; i++) {
+            if (digestBytes[i] != 0) {
+                ok = NO;
+            }
+        }
+        if (ok && halfNeeded && (digestBytes[fullZeroBytes] >> 4) != 0) {
+            ok = NO;
+        }
+        if (ok) {
+            NSMutableString *digest = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
+            for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+                [digest appendFormat:@"%02x", digestBytes[i]];
+            }
+            *outDigest = digest;
+            *outNonce = nonceString;
+            *outElapsedMs = (NSInteger)((-[start timeIntervalSinceNow]) * 1000.0);
+            return YES;
+        }
+    }
+    return NO;
 }
 
 static NSDictionary<NSString *, NSString *> *VKURLParams(NSURL *url) {
@@ -274,6 +374,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
 @property (nonatomic, strong) NSURLSession *loginSession;
 @property (nonatomic, strong) VKLoginSessionDelegate *loginSessionDelegate;
 @property (nonatomic, strong) VKNativeLoginViewController *loginForm;
+@property (nonatomic, strong) EulaAlertController *eulaAlert;
 @end
 
 @implementation AuthorizationViewModelImpl
@@ -336,6 +437,13 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
 }
 
 - (void)vkRequest:(NSURL *)url fields:(NSDictionary<NSString *, NSString *> *)fields completion:(VKLoginResponseBlock)completion {
+    [self vkRequest:url fields:fields completion:completion allowAnubisRetry:YES];
+}
+
+- (void)vkRequest:(NSURL *)url
+           fields:(NSDictionary<NSString *, NSString *> *)fields
+       completion:(VKLoginResponseBlock)completion
+  allowAnubisRetry:(BOOL)allowRetry {
     self.loginSessionDelegate.vkRedirectURL = nil;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -353,7 +461,60 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         if (self == nil) {
             return;
         }
+        if (allowRetry && error == nil && data.length > 0) {
+            NSString *html = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSDictionary *challenge = VKParseAnubisChallenge(html);
+            if (challenge != nil) {
+                [self solveAnubisChallenge:challenge originalURL:url fields:fields completion:completion];
+                return;
+            }
+        }
         completion((NSHTTPURLResponse *)response, data, self.loginSessionDelegate.vkRedirectURL, error);
+    }];
+    [task resume];
+}
+
+- (void)solveAnubisChallenge:(NSDictionary *)challenge
+                originalURL:(NSURL *)url
+                     fields:(NSDictionary<NSString *, NSString *> *)fields
+                 completion:(VKLoginResponseBlock)completion {
+    NSString *digest = nil;
+    NSString *nonce = nil;
+    NSInteger elapsed = 0;
+    NSString *challengeId = [challenge isKindOfClass:[NSDictionary class]] ? challenge[@"challenge"][@"id"] : nil;
+    if (!VKSolveAnubisPow(challenge, &digest, &nonce, &elapsed) || challengeId.length == 0) {
+        DDLogInfo(@"anubis pow failed");
+        [self vkRequest:url fields:fields completion:completion allowAnubisRetry:NO];
+        return;
+    }
+    DDLogInfo(@"anubis challenge solved, nonce: %@", nonce);
+    NSCharacterSet *allowed = [NSCharacterSet characterSetWithCharactersInString:
+        @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._*"];
+    NSString *encodedId = [challengeId stringByAddingPercentEncodingWithAllowedCharacters:allowed] ?: challengeId;
+    NSString *encodedDigest = [digest stringByAddingPercentEncodingWithAllowedCharacters:allowed] ?: digest;
+    NSString *encodedNonce = [nonce stringByAddingPercentEncodingWithAllowedCharacters:allowed] ?: nonce;
+    NSString *encodedRedir = [url.absoluteString stringByAddingPercentEncodingWithAllowedCharacters:allowed] ?: url.absoluteString;
+    NSString *passURLString = [NSString stringWithFormat:
+        @"https://openvk.org/.within.website/x/cmd/anubis/api/pass-challenge?id=%@&response=%@&nonce=%@&redir=%@&elapsedTime=%ld",
+        encodedId, encodedDigest, encodedNonce, encodedRedir, (long)MAX(elapsed, 50)];
+    NSURL *passURL = [NSURL URLWithString:passURLString];
+    if (passURL == nil) {
+        [self vkRequest:url fields:fields completion:completion allowAnubisRetry:NO];
+        return;
+    }
+    self.loginSessionDelegate.vkRedirectURL = nil;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:passURL
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                       timeoutInterval:30.0];
+    [request setValue:kLoginUA forHTTPHeaderField:@"User-Agent"];
+    @weakify(self);
+    NSURLSessionDataTask *task = [[self vkLoginSession] dataTaskWithRequest:request
+                                                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        @strongify(self);
+        if (self == nil) {
+            return;
+        }
+        [self vkRequest:url fields:fields completion:completion allowAnubisRetry:NO];
     }];
     [task resume];
 }
@@ -425,19 +586,10 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
 }
 
 - (void)performLoginPOSTWithAction:(NSURL *)actionURL
-                             login:(NSString *)login
-                          password:(NSString *)password
-                              form:(VKNativeLoginViewController *)form
-                     captchaFields:(NSDictionary<NSString *, NSString *> *)captchaFields {
-    NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithDictionary:@{
-        @"email": login,
-        @"pass": password,
-    }];
-    if (captchaFields != nil) {
-        [fields addEntriesFromDictionary:captchaFields];
-    }
+                            fields:(NSDictionary<NSString *, NSString *> *)loginFields
+                              form:(VKNativeLoginViewController *)form {
     @weakify(self);
-    [self vkRequest:actionURL fields:fields completion:^(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error) {
+    [self vkRequest:actionURL fields:loginFields completion:^(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error) {
         @strongify(self);
         if (self == nil) {
             return;
@@ -487,7 +639,10 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
             return;
         }
         NSURL *actionURL = [NSURL URLWithString:action relativeToURL:homeURL].absoluteURL;
-        [self performLoginPOSTWithAction:actionURL login:login password:password form:form captchaFields:nil];
+        NSMutableDictionary *loginFields = [NSMutableDictionary dictionaryWithDictionary:VKExtractLoginHiddenFields(html)];
+        loginFields[@"login"] = login;
+        loginFields[@"password"] = password;
+        [self performLoginPOSTWithAction:actionURL fields:loginFields form:form];
     }];
 }
 
@@ -524,15 +679,17 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         return;
     }
     EulaAlertController *alert = [EulaAlertController new];
+    self.eulaAlert = alert;
     @weakify(self);
     @weakify(form);
-    @weakify(alert);
     alert.needsShowEulaViewControllerBlock = ^{
         @strongify(self);
-        @strongify(alert);
-        if (alert != nil) {
-            [alert dismiss:YES completion:nil];
+        if (self == nil) {
+            return;
         }
+        EulaAlertController *strongAlert = self.eulaAlert;
+        self.eulaAlert = nil;
+        [strongAlert dismiss:YES completion:nil];
         dispatch_python(^{
             @strongify(self);
             [self.handler showEula];
@@ -541,7 +698,11 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
     alert.finishedBlock = ^(BOOL isPrivacyPolicyConfirmed) {
         @strongify(self);
         @strongify(form);
-        if (self == nil || form == nil) {
+        if (self == nil) {
+            return;
+        }
+        self.eulaAlert = nil;
+        if (form == nil) {
             return;
         }
         if (isPrivacyPolicyConfirmed) {
