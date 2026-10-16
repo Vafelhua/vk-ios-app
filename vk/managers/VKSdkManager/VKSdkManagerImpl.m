@@ -11,61 +11,12 @@
 #import "RunLoop.h"
 
 @import VKSdkFramework;
-@import SafariServices;
-@import WebKit;
 
 static NSInteger const kCaptchaRequestId = 7777777;
 static NSInteger const kValidationResponseId = kCaptchaRequestId + 1;
 
 static NSString *kVkAppId = @"3140623";
 static NSInteger const kUserCancelledErrorCode = -999;
-
-@interface VKWebAuthController : UIViewController <WKNavigationDelegate>
-@property (nonatomic, strong) WKWebView *webView;
-@property (nonatomic, copy) void (^onRedirect)(NSURL *url);
-@end
-
-@implementation VKWebAuthController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.title = @"OpenVK";
-
-    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:[WKWebViewConfiguration new]];
-    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.webView.navigationDelegate = self;
-    [self.view addSubview:self.webView];
-
-    self.navigationItem.leftBarButtonItem =
-        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                      target:self
-                                                      action:@selector(cancelTapped)];
-}
-
-- (void)cancelTapped {
-    if (self.onRedirect) {
-        self.onRedirect(nil);
-    }
-}
-
-- (void)webView:(WKWebView *)webView
-decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
-decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    NSURL *url = navigationAction.request.URL;
-    if (url != nil && [url.scheme.lowercaseString hasPrefix:@"vk"]) {
-        decisionHandler(WKNavigationActionPolicyCancel);
-        if (self.onRedirect) {
-            self.onRedirect(url);
-        }
-        return;
-    }
-    decisionHandler(WKNavigationActionPolicyAllow);
-}
-
-@end
-
 
 @interface VKSdkManagerImpl () <VKSdkDelegate, VKSdkUIDelegate>
 @property (strong, nonatomic) VKSdk *sdk;
@@ -146,48 +97,12 @@ static BOOL g_needs_block_vkapp = NO;
 }
 
 #pragma mark - VKSdkManager
-- (void)presentWebAuthorization {
-    VKAuthorizationContext *context =
-        [VKAuthorizationContext contextWithAuthType:VKAuthorizationTypeSafari
-                                           clientId:kVkAppId
-                                        displayType:VK_DISPLAY_MOBILE
-                                              scope:[[self scope] arrayByAddingObject:@"offline"]
-                                             revoke:YES];
-    NSURL *url = [VKAuthorizeController buildAuthorizationURLWithContext:context];
-
-    VKWebAuthController *authController = [VKWebAuthController new];
-    UINavigationController *navigationController =
-        [[UINavigationController alloc] initWithRootViewController:authController];
-    __weak VKSdkManagerImpl *weakSelf = self;
-    authController.onRedirect = ^(NSURL *redirectUrl) {
-        VKSdkManagerImpl *strongSelf = weakSelf;
-        [navigationController dismissViewControllerAnimated:YES completion:^{
-            if (redirectUrl != nil) {
-                [VKSdk processOpenURL:redirectUrl fromApplication:nil];
-            } else if (strongSelf != nil && strongSelf->_getTokenFailed) {
-                NSError *cancelError = [NSError errorWithDomain:@"OpenVKAuth"
-                                                           code:kUserCancelledErrorCode
-                                                       userInfo:@{NSLocalizedDescriptionKey: @"cancelled"}];
-                strongSelf->_getTokenFailed(cancelError, YES);
-            }
-        }];
-    };
-    UIViewController *presenter = self.viewController;
-    if (presenter == nil) {
-        presenter = [UIApplication sharedApplication].keyWindow.rootViewController;
-    }
-    DDLogInfo(@"presenting in-app web authorization: %@", url);
-    [presenter presentViewController:navigationController animated:YES completion:nil];
-}
-
 - (void)authorizeByApp {
-    [VKSdk forceLogout];
-    [self presentWebAuthorization];
+    // Authorization is performed natively by AuthorizationViewModelImpl.
 }
 
 - (void)authorizeByLogin {
-    [VKSdk forceLogout];
-    [self presentWebAuthorization];
+    // Authorization is performed natively by AuthorizationViewModelImpl.
 }
 
 - (BOOL)isAuthorizationOverAppAvailable {

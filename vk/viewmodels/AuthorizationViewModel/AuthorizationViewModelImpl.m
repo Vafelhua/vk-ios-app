@@ -10,10 +10,267 @@
 #import <VK-ios-sdk/VKSdk.h>
 #import "Oxy_Feed-Swift.h"
 
+static NSString *const kOpenVKHome = @"https://openvk.org";
+static NSString *const kOpenVKAuthorize = @"https://openvk.org/authorize";
+static NSString *const kOpenVKClientId = @"3140623";
+static NSString *const kOpenVKScope = @"friends,email,messages,notifications,groups,docs,wall,notes,status,stories,video,audio,photos,offline";
+static NSString *const kLoginUA = @"Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
+
+typedef void (^VKLoginResponseBlock)(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error);
+
+static NSString *VKFormEncode(NSDictionary<NSString *, NSString *> *fields) {
+    NSMutableArray *parts = [NSMutableArray array];
+    NSCharacterSet *allowed = [NSCharacterSet characterSetWithCharactersInString:
+        @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._*"];
+    [fields enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+        NSString *ek = [key stringByAddingPercentEncodingWithAllowedCharacters:allowed] ?: key;
+        NSString *ev = [value stringByAddingPercentEncodingWithAllowedCharacters:allowed] ?: value;
+        [parts addObject:[NSString stringWithFormat:@"%@=%@", ek, ev]];
+    }];
+    return [parts componentsJoinedByString:@"&"];
+}
+
+static NSString *VKExtractFormAction(NSString *html) {
+    if (html.length == 0) {
+        return nil;
+    }
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<form(?= ).* action=\"(.+)\"" options:0 error:nil];
+    NSTextCheckingResult *match = [regex firstMatchInString:html options:0 range:NSMakeRange(0, html.length)];
+    if (match && match.numberOfRanges > 1) {
+        NSRange range = [match rangeAtIndex:1];
+        if (range.location != NSNotFound) {
+            return [html substringWithRange:range];
+        }
+    }
+    return nil;
+}
+
+static NSDictionary<NSString *, NSString *> *VKURLParams(NSURL *url) {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString *source = url.query.length > 0 ? url.query : url.fragment;
+    for (NSString *pair in [source componentsSeparatedByString:@"&"]) {
+        NSRange eq = [pair rangeOfString:@"="];
+        if (eq.location == NSNotFound) {
+            continue;
+        }
+        NSString *key = [pair substringToIndex:eq.location];
+        NSString *value = [pair substringFromIndex:eq.location + 1];
+        value = [value stringByRemovingPercentEncoding] ?: value;
+        if (key.length > 0) {
+            params[key] = value;
+        }
+    }
+    return params;
+}
+
+static BOOL VKHasAuthCookies(void) {
+    for (NSHTTPCookie *cookie in [NSHTTPCookieStorage sharedHTTPCookieStorage].cookies) {
+        if (([cookie.name isEqualToString:@"remixsid"] || [cookie.name isEqualToString:@"remixsid6"]) &&
+            [cookie.domain containsString:@"openvk.org"]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+#pragma mark - VKLoginSessionDelegate
+
+@interface VKLoginSessionDelegate : NSObject <NSURLSessionTaskDelegate>
+@property (atomic, strong) NSURL *vkRedirectURL;
+@end
+
+@implementation VKLoginSessionDelegate
+
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+willPerformHTTPRedirection:(NSHTTPURLResponse *)response
+        newRequest:(NSURLRequest *)request
+ completionHandler:(void (^)(NSURLRequest *))completionHandler {
+    if (request.URL != nil && [request.URL.scheme.lowercaseString hasPrefix:@"vk"]) {
+        self.vkRedirectURL = request.URL;
+        completionHandler(nil);
+        return;
+    }
+    completionHandler(request);
+}
+
+@end
+
+#pragma mark - VKNativeLoginViewController
+
+@interface VKNativeLoginViewController : UIViewController <UITextFieldDelegate>
+@property (nonatomic, copy) void (^completion)(NSString *login, NSString *password);
+@end
+
+@implementation VKNativeLoginViewController {
+    UILabel *_titleLabel;
+    UITextField *_loginField;
+    UITextField *_passwordField;
+    UILabel *_errorLabel;
+    UIButton *_loginButton;
+    UIActivityIndicatorView *_spinner;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorWithRed:130.0/255.0 green:158.0/255.0 blue:191.0/255.0 alpha:1.0];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+
+    _titleLabel = [UILabel new];
+    _titleLabel.text = @"Вход в OpenVK";
+    _titleLabel.textColor = [UIColor whiteColor];
+    _titleLabel.font = [UIFont boldSystemFontOfSize:24.0];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_titleLabel];
+
+    _loginField = [UITextField new];
+    _loginField.placeholder = @"Электронная почта или телефон";
+    _loginField.backgroundColor = [UIColor whiteColor];
+    _loginField.layer.cornerRadius = 6.0;
+    _loginField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _loginField.autocorrectionType = UITextAutocorrectionTypeNo;
+    _loginField.keyboardType = UIKeyboardTypeEmailAddress;
+    _loginField.returnKeyType = UIReturnKeyNext;
+    _loginField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    UIView *loginPadding = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 1)];
+    _loginField.leftView = loginPadding;
+    _loginField.leftViewMode = UITextFieldViewModeAlways;
+    _loginField.delegate = self;
+    [self.view addSubview:_loginField];
+
+    _passwordField = [UITextField new];
+    _passwordField.placeholder = @"Пароль";
+    _passwordField.backgroundColor = [UIColor whiteColor];
+    _passwordField.layer.cornerRadius = 6.0;
+    _passwordField.secureTextEntry = YES;
+    _passwordField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
+    _passwordField.returnKeyType = UIReturnKeyGo;
+    UIView *passwordPadding = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 1)];
+    _passwordField.leftView = passwordPadding;
+    _passwordField.leftViewMode = UITextFieldViewModeAlways;
+    _passwordField.delegate = self;
+    [self.view addSubview:_passwordField];
+
+    _errorLabel = [UILabel new];
+    _errorLabel.textColor = [UIColor whiteColor];
+    _errorLabel.font = [UIFont systemFontOfSize:14.0];
+    _errorLabel.textAlignment = NSTextAlignmentCenter;
+    _errorLabel.numberOfLines = 0;
+    _errorLabel.hidden = YES;
+    [self.view addSubview:_errorLabel];
+
+    _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    _spinner.hidesWhenStopped = YES;
+    [self.view addSubview:_spinner];
+
+    _loginButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [_loginButton setTitle:@"Войти" forState:UIControlStateNormal];
+    [_loginButton setTitleColor:[UIColor colorWithRed:70.0/255.0 green:100.0/255.0 blue:140.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    _loginButton.titleLabel.font = [UIFont boldSystemFontOfSize:17.0];
+    _loginButton.backgroundColor = [UIColor whiteColor].alphaComponent(0.5);
+    _loginButton.layer.cornerRadius = 4.0;
+    [_loginButton addTarget:self action:@selector(loginTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_loginButton];
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)];
+    [self.view addGestureRecognizer:tap];
+
+    self.navigationItem.leftBarButtonItem =
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemClose
+                                                      target:self
+                                                      action:@selector(closeTapped)];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    CGFloat width = self.view.bounds.size.width;
+    CGFloat x = 40.0;
+    CGFloat w = width - 80.0;
+    CGFloat top = 100.0;
+    _titleLabel.frame = CGRectMake(20, top, width - 40, 36);
+    _loginField.frame = CGRectMake(x, top + 70, w, 44);
+    _passwordField.frame = CGRectMake(x, top + 130, w, 44);
+    _errorLabel.frame = CGRectMake(x, top + 190, w, 70);
+    _spinner.center = CGPointMake(width / 2.0, top + 290);
+    _loginButton.frame = CGRectMake(x, top + 320, w, 48);
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == _loginField) {
+        [_passwordField becomeFirstResponder];
+        return YES;
+    }
+    [textField resignFirstResponder];
+    [self loginTapped];
+    return YES;
+}
+
+#pragma mark - Public
+- (void)showProgress {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self->_errorLabel.hidden = YES;
+        self->_loginField.enabled = NO;
+        self->_passwordField.enabled = NO;
+        self->_loginButton.enabled = NO;
+        [self->_spinner startAnimating];
+    });
+}
+
+- (void)showError:(NSString *)message {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_spinner stopAnimating];
+        self->_loginField.enabled = YES;
+        self->_passwordField.enabled = YES;
+        self->_loginButton.enabled = YES;
+        self->_errorLabel.text = message;
+        self->_errorLabel.hidden = NO;
+    });
+}
+
+#pragma mark - Private
+- (void)closeTapped {
+    if (self.navigationController.viewControllers.firstObject != self) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (void)loginTapped {
+    [self.view endEditing:YES];
+    NSString *login = [_loginField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *password = _passwordField.text;
+    if (login.length == 0 || password.length == 0) {
+        [self showError:@"Введите логин и пароль"];
+        return;
+    }
+    if (self.completion) {
+        self.completion(login, password);
+    }
+}
+
+@end
+
+#pragma mark - AuthorizationViewModelImpl
+
 @interface AuthorizationViewModelImpl () <AuthorizationViewModel>
 @property id<PyAuthorizationViewModel> handler;
 @property id<VKSdkManager> vkManager;
 @property id<NotificationsManager> notificationsManager;
+@property (nonatomic, strong) NSURLSession *loginSession;
+@property (nonatomic, strong) VKLoginSessionDelegate *loginSessionDelegate;
 @end
 
 @implementation AuthorizationViewModelImpl
@@ -61,36 +318,193 @@
         // @strongify(self);
         
     };
-    /*
-    dispatch_block_t simulateBlock = ^{
-        VKAccessToken *token = [VKAccessToken tokenWithToken:@"4c0638c47d2fb5c57fadfc995d123a1337c41781af7b1521e8d5fbd8d972ba0e63a9387677cb91cf8538e"
-                                                      secret:@""
-                                                      userId:@"7162990"];
-        self.vkManager.getTokenSuccess(token);
-    };
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //[self.vkManager authorize];
-        
-#ifdef DEBUG
-        simulateBlock();
-        
-        //[self.vkManager authorize];
-#else
-        
-        // simulateBlock();
-        [self.vkManager authorize];
-#endif
-    });
-     */
 }
 
+- (NSURLSession *)vkLoginSession {
+    if (!_loginSession) {
+        _loginSessionDelegate = [VKLoginSessionDelegate new];
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        _loginSession = [NSURLSession sessionWithConfiguration:configuration
+                                                      delegate:_loginSessionDelegate
+                                                 delegateQueue:nil];
+    }
+    return _loginSession;
+}
+
+- (void)vkRequest:(NSURL *)url fields:(NSDictionary<NSString *, NSString *> *)fields completion:(VKLoginResponseBlock)completion {
+    self.loginSessionDelegate.vkRedirectURL = nil;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                       timeoutInterval:30.0];
+    if (fields != nil) {
+        request.HTTPMethod = @"POST";
+        request.HTTPBody = [VKFormEncode(fields) dataUsingEncoding:NSUTF8StringEncoding];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    }
+    [request setValue:kLoginUA forHTTPHeaderField:@"User-Agent"];
+    @weakify(self);
+    NSURLSessionDataTask *task = [[self vkLoginSession] dataTaskWithRequest:request
+                                                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        @strongify(self);
+        if (self == nil) {
+            return;
+        }
+        completion((NSHTTPURLResponse *)response, data, self.loginSessionDelegate.vkRedirectURL, error);
+    }];
+    [task resume];
+}
+
+- (void)failLogin:(NSString *)message form:(VKNativeLoginViewController *)form {
+    DDLogInfo(@"native login failed: %@", message);
+    [form showError:message];
+}
+
+- (void)completeLoginWithRedirect:(NSURL *)url form:(VKNativeLoginViewController *)form {
+    NSDictionary<NSString *, NSString *> *params = VKURLParams(url);
+    NSString *token = params[@"access_token"];
+    NSString *userId = params[@"user_id"];
+    if (token.length == 0 || userId.length == 0) {
+        [self failLogin:@"Не удалось получить токен доступа" form:form];
+        return;
+    }
+    DDLogInfo(@"native login succeeded for user: %@", userId);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        VKAccessToken *accessToken = [VKAccessToken tokenWithToken:token secret:@"" userId:userId];
+        if (self.vkManager.getTokenSuccess) {
+            self.vkManager.getTokenSuccess(accessToken);
+        }
+    });
+}
+
+- (void)requestAccessTokenWithForm:(VKNativeLoginViewController *)form {
+    NSURL *authorizeURL = [NSURL URLWithString:kOpenVKAuthorize];
+    NSDictionary *fields = @{
+        @"client_id": kOpenVKClientId,
+        @"display": @"mobile",
+        @"response_type": @"token",
+        @"scope": kOpenVKScope,
+        @"v": @"5.106",
+    };
+    @weakify(self);
+    [self vkRequest:authorizeURL fields:fields completion:^(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error) {
+        @strongify(self);
+        if (self == nil) {
+            return;
+        }
+        if (vkRedirectURL != nil) {
+            [self completeLoginWithRedirect:vkRedirectURL form:form];
+            return;
+        }
+        NSString *html = data != nil ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+        NSString *action = VKExtractFormAction(html);
+        if (action.length == 0) {
+            [self failLogin:@"Не удалось выдать токен доступа (форма разрешения)" form:form];
+            return;
+        }
+        NSURL *actionURL = [NSURL URLWithString:action relativeToURL:authorizeURL].absoluteURL;
+        [self vkRequest:actionURL fields:nil completion:^(NSHTTPURLResponse *response2, NSData *data2, NSURL *vkRedirectURL2, NSError *error2) {
+            @strongify(self);
+            if (self == nil) {
+                return;
+            }
+            if (vkRedirectURL2 != nil) {
+                [self completeLoginWithRedirect:vkRedirectURL2 form:form];
+                return;
+            }
+            [self failLogin:@"Не удалось выдать токен доступа" form:form];
+        }];
+    }];
+}
+
+- (void)performLoginPOSTWithAction:(NSURL *)actionURL
+                             login:(NSString *)login
+                          password:(NSString *)password
+                              form:(VKNativeLoginViewController *)form
+                     captchaFields:(NSDictionary<NSString *, NSString *> *)captchaFields {
+    NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithDictionary:@{
+        @"email": login,
+        @"pass": password,
+    }];
+    if (captchaFields != nil) {
+        [fields addEntriesFromDictionary:captchaFields];
+    }
+    @weakify(self);
+    [self vkRequest:actionURL fields:fields completion:^(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error) {
+        @strongify(self);
+        if (self == nil) {
+            return;
+        }
+        if (VKHasAuthCookies()) {
+            [self requestAccessTokenWithForm:form];
+            return;
+        }
+        NSDictionary<NSString *, NSString *> *params = VKURLParams(response.URL);
+        if (params[@"sid"] != nil) {
+            [self failLogin:@"OpenVK запросил капчу. Повторите попытку позже или войдите на openvk.org в браузере." form:form];
+            return;
+        }
+        if ([params[@"act"] isEqualToString:@"authcheck"]) {
+            [self failLogin:@"Включена двухфакторная авторизация. Временный пароль можно получить на openvk.org." form:form];
+            return;
+        }
+        if (params[@"security_check"] != nil) {
+            [self failLogin:@"Необходимо подтвердить номер телефона на сайте openvk.org." form:form];
+            return;
+        }
+        [self failLogin:@"Неверный логин или пароль" form:form];
+    }];
+}
+
+- (void)performNativeLoginWithLogin:(NSString *)login password:(NSString *)password form:(VKNativeLoginViewController *)form {
+    DDLogInfo(@"starting native login");
+    NSURL *homeURL = [NSURL URLWithString:kOpenVKHome];
+    @weakify(self);
+    [self vkRequest:homeURL fields:nil completion:^(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error) {
+        @strongify(self);
+        if (self == nil) {
+            return;
+        }
+        NSString *html = data != nil ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+        NSString *action = VKExtractFormAction(html);
+        if (action.length == 0) {
+            [self failLogin:@"Не удалось загрузить форму входа OpenVK" form:form];
+            return;
+        }
+        NSURL *actionURL = [NSURL URLWithString:action relativeToURL:homeURL].absoluteURL;
+        [self performLoginPOSTWithAction:actionURL login:login password:password form:form captchaFields:nil];
+    }];
+}
+
+- (void)presentNativeLogin {
+    VKNativeLoginViewController *form = [VKNativeLoginViewController new];
+    @weakify(self);
+    @weakify(form);
+    form.completion = ^(NSString *login, NSString *password) {
+        @strongify(self);
+        @strongify(form);
+        if (self == nil || form == nil) {
+            return;
+        }
+        [form showProgress];
+        [self performNativeLoginWithLogin:login password:password form:form];
+    };
+    UINavigationController *navigationController = self.viewController.navigationController;
+    if (navigationController != nil) {
+        [navigationController pushViewController:form animated:YES];
+    } else {
+        UINavigationController *wrapper = [[UINavigationController alloc] initWithRootViewController:form];
+        wrapper.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self.viewController presentViewController:wrapper animated:YES completion:nil];
+    }
+}
+
+#pragma mark - AuthorizationViewModel
 - (void)authorizeByApp {
-    
-    [self.vkManager authorizeByApp];
+    [self presentNativeLogin];
 }
 
 - (void)authorizeByLogin {
-    [self.vkManager authorizeByLogin];
+    [self presentNativeLogin];
 }
 
 - (void)showEula {
@@ -100,7 +514,7 @@
 }
 
 - (BOOL)isAuthorizationOverAppAvailable {
-    return [VKSdk vkAppMayExists];
+    return NO;
 }
 
 @end
