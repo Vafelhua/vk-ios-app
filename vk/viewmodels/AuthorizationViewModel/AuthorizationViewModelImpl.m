@@ -673,8 +673,89 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
     }];
 }
 
+- (void)completeLoginWithToken:(NSString *)token userId:(NSString *)userId form:(VKNativeLoginViewController *)form {
+    DDLogInfo(@"native login succeeded for user: %@", userId);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        VKAccessToken *accessToken = [VKAccessToken tokenWithToken:token secret:@"" userId:userId];
+        if (self.vkManager.getTokenSuccess) {
+            self.vkManager.getTokenSuccess(accessToken);
+        }
+    });
+}
+
+- (void)requestTokenWithLogin:(NSString *)login
+                     password:(NSString *)password
+                 homepageHtml:(NSString *)homepageHtml
+                         form:(VKNativeLoginViewController *)form {
+    NSURL *tokenURL = [NSURL URLWithString:@"https://openvk.org/oauth/token"];
+    NSDictionary<NSString *, NSString *> *fields = @{
+        @"grant_type": @"password",
+        @"client_id": kOpenVKClientId,
+        @"username": login,
+        @"password": password,
+        @"scope": kOpenVKScope,
+        @"v": @"5.106",
+    };
+    @weakify(self);
+    [self vkRequest:tokenURL fields:fields completion:^(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error) {
+        @strongify(self);
+        if (self == nil) {
+            return;
+        }
+        if (error != nil || data.length == 0) {
+            [self failLogin:@"Ошибка сети. Проверьте подключение к интернету." form:form];
+            return;
+        }
+        NSDictionary *json = nil;
+        id parsed = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        if ([parsed isKindOfClass:[NSDictionary class]]) {
+            json = parsed;
+        }
+        NSString *token = [json[@"access_token"] isKindOfClass:[NSString class]] ? json[@"access_token"] : nil;
+        id userIdValue = json[@"user_id"];
+        NSString *userId = nil;
+        if ([userIdValue isKindOfClass:[NSString class]]) {
+            userId = userIdValue;
+        } else if ([userIdValue respondsToSelector:@selector(stringValue)]) {
+            userId = [userIdValue stringValue];
+        }
+        if (token.length > 0 && userId.length > 0) {
+            [self completeLoginWithToken:token userId:userId form:form];
+            return;
+        }
+        NSDictionary *errorObject = [json[@"error"] isKindOfClass:[NSDictionary class]] ? json[@"error"] : nil;
+        NSNumber *errorCode = [errorObject[@"error_code"] respondsToSelector:@selector(integerValue)] ? errorObject[@"error_code"] : nil;
+        NSString *errorMsg = [errorObject[@"error_msg"] isKindOfClass:[NSString class]] ? errorObject[@"error_msg"] : nil;
+        DDLogInfo(@"ropc failed: code %@ msg %@", errorCode, errorMsg);
+        if ([errorCode integerValue] == 28) {
+            [self failLogin:@"Неверный логин или пароль" form:form];
+            return;
+        }
+        // Двухфакторная авторизация, капча и прочее — веб-флоу с серверной сессией
+        [self performWebLoginWithLogin:login password:password homepageHtml:homepageHtml form:form];
+    }];
+}
+
+- (void)performWebLoginWithLogin:(NSString *)login
+                        password:(NSString *)password
+                    homepageHtml:(NSString *)homepageHtml
+                            form:(VKNativeLoginViewController *)form {
+    NSURL *homeURL = [NSURL URLWithString:kOpenVKHome];
+    NSString *html = homepageHtml;
+    NSString *action = VKExtractFormAction(html);
+    if (action.length == 0) {
+        [self failLogin:@"Не удалось загрузить форму входа OpenVK" form:form];
+        return;
+    }
+    NSURL *actionURL = [NSURL URLWithString:action relativeToURL:homeURL].absoluteURL;
+    NSMutableDictionary *loginFields = [NSMutableDictionary dictionaryWithDictionary:VKExtractLoginHiddenFields(html)];
+    loginFields[@"login"] = login;
+    loginFields[@"password"] = password;
+    [self performLoginPOSTWithAction:actionURL fields:loginFields form:form];
+}
+
 - (void)performNativeLoginWithLogin:(NSString *)login password:(NSString *)password form:(VKNativeLoginViewController *)form {
-    DDLogInfo(@"starting native login");
+    DDLogInfo(@"starting native login via ropc");
     NSURL *homeURL = [NSURL URLWithString:kOpenVKHome];
     @weakify(self);
     [self vkRequest:homeURL fields:nil completion:^(NSHTTPURLResponse *response, NSData *data, NSURL *vkRedirectURL, NSError *error) {
@@ -687,16 +768,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
             return;
         }
         NSString *html = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSString *action = VKExtractFormAction(html);
-        if (action.length == 0) {
-            [self failLogin:@"Не удалось загрузить форму входа OpenVK" form:form];
-            return;
-        }
-        NSURL *actionURL = [NSURL URLWithString:action relativeToURL:homeURL].absoluteURL;
-        NSMutableDictionary *loginFields = [NSMutableDictionary dictionaryWithDictionary:VKExtractLoginHiddenFields(html)];
-        loginFields[@"login"] = login;
-        loginFields[@"password"] = password;
-        [self performLoginPOSTWithAction:actionURL fields:loginFields form:form];
+        [self requestTokenWithLogin:login password:password homepageHtml:html form:form];
     }];
 }
 
