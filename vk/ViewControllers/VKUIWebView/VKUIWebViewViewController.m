@@ -57,8 +57,13 @@ static NSString *VKUIMimeTypeForExtension(NSString *ext) {
         return;
     }
     NSString *base = [[NSBundle mainBundle] pathForResource:kVKUIBundleDirectory ofType:nil];
+    if (base.length == 0) {
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorFileDoesNotExist userInfo:nil];
+        [urlSchemeTask didFailWithError:error];
+        return;
+    }
     NSString *filePath = [base stringByAppendingPathComponent:relative];
-    NSData *data = [NSData dataWithContentsOfFile:filePath];
+    NSData *data = filePath.length > 0 ? [NSData dataWithContentsOfFile:filePath] : nil;
     if (data == nil) {
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorFileDoesNotExist userInfo:nil];
         [urlSchemeTask didFailWithError:error];
@@ -89,40 +94,64 @@ static NSString *VKUIMimeTypeForExtension(NSString *ext) {
 
 @implementation VKUIWebViewViewController
 
-+ (void)presentWithToken:(NSString *)token userId:(NSString *)userId {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIWindow *window = nil;
-        if (@available(iOS 13.0, *)) {
-            for (UIWindowScene *scene in [UIApplication sharedApplication].connectedScenes) {
-                if (scene.activationState == UISceneActivationStateForegroundActive) {
-                    for (UIWindow *candidate in scene.windows) {
-                        if (candidate.isKeyWindow) {
-                            window = candidate;
-                            break;
-                        }
-                    }
-                }
-                if (window != nil) {
-                    break;
++ (UIWindow *)vkui_keyWindow {
+    if (@available(iOS 13.0, *)) {
+        for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
+            if (![scene isKindOfClass:[UIWindowScene class]]) {
+                continue;
+            }
+            for (UIWindow *candidate in ((UIWindowScene *)scene).windows) {
+                if (candidate.isKeyWindow) {
+                    return candidate;
                 }
             }
         }
-        if (window == nil) {
-            window = [UIApplication sharedApplication].delegate.window;
+    }
+    for (UIWindow *candidate in [UIApplication sharedApplication].windows) {
+        if (candidate.isKeyWindow) {
+            return candidate;
         }
-        UIViewController *top = window.rootViewController;
-        while (top.presentedViewController != nil && ![top.presentedViewController isKindOfClass:[VKUIWebViewViewController class]]) {
-            top = top.presentedViewController;
+    }
+    return [UIApplication sharedApplication].windows.firstObject;
+}
+
++ (void)attemptPresentWithToken:(NSString *)token userId:(NSString *)userId attemptsLeft:(NSInteger)attemptsLeft {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        @try {
+            UIWindow *window = [self vkui_keyWindow];
+            UIViewController *top = window.rootViewController;
+            while (top.presentedViewController != nil && ![top.presentedViewController isKindOfClass:[VKUIWebViewViewController class]]) {
+                top = top.presentedViewController;
+            }
+            if ([top isKindOfClass:[VKUIWebViewViewController class]]) {
+                return;
+            }
+            BOOL ready = window != nil && top != nil && top.viewIfLoaded.window != nil;
+            if (!ready) {
+                if (attemptsLeft > 0) {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self attemptPresentWithToken:token userId:userId attemptsLeft:attemptsLeft - 1];
+                    });
+                }
+                return;
+            }
+            VKUIWebViewViewController *controller = [VKUIWebViewViewController new];
+            controller.token = token;
+            controller.userId = userId;
+            controller.modalPresentationStyle = UIModalPresentationFullScreen;
+            [top presentViewController:controller animated:NO completion:nil];
+        } @catch (NSException *exception) {
+            if (attemptsLeft > 0) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self attemptPresentWithToken:token userId:userId attemptsLeft:attemptsLeft - 1];
+                });
+            }
         }
-        if ([top isKindOfClass:[VKUIWebViewViewController class]]) {
-            return;
-        }
-        VKUIWebViewViewController *controller = [VKUIWebViewViewController new];
-        controller.token = token;
-        controller.userId = userId;
-        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-        [top presentViewController:controller animated:NO completion:nil];
     });
+}
+
++ (void)presentWithToken:(NSString *)token userId:(NSString *)userId {
+    [self attemptPresentWithToken:token userId:userId attemptsLeft:12];
 }
 
 - (void)viewDidLoad {
